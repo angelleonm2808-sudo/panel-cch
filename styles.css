@@ -39,8 +39,14 @@ header h1 {
   color: #4a148c;
 }
 
+#nombre-usuario {
+  border-bottom: 2px dashed #ab47bc;
+  outline: none;
+  cursor: pointer;
+}
+
 #reloj {
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: #8e24aa;
 }
@@ -49,6 +55,16 @@ header h1 {
   background: #f3e5f5;
   border-left: 6px solid #ab47bc;
   margin-bottom: 20px;
+}
+
+.btn-accion {
+  background-color: var(--pastel-pink);
+  color: #4a148c;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .quick-access {
@@ -118,7 +134,6 @@ th {
   color: #4a148c;
 }
 
-/* Formulario Tareas */
 .form-tarea {
   display: flex;
   flex-direction: column;
@@ -157,13 +172,6 @@ th {
   border-radius: 6px;
 }
 
-.estado-select {
-  padding: 4px;
-  border-radius: 4px;
-  font-size: 0.8rem;
-}
-
-/* Calendario */
 #calendar-header {
   display: flex;
   justify-content: space-between;
