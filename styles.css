@@ -1,81 +1,179 @@
-// Reloj y Fecha
-function actualizarReloj() {
-  const ahora = new Date();
-  document.getElementById('reloj').textContent = ahora.toLocaleTimeString('es-MX');
-  document.getElementById('fecha').textContent = ahora.toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'short' });
-}
-setInterval(actualizarReloj, 1000);
-actualizarReloj();
-
-// Pomodoro Timer
-let tiempo = 25 * 60;
-let timerId = null;
-
-const displayPomo = document.getElementById('pomo-timer');
-const btnStart = document.getElementById('pomo-start');
-const btnReset = document.getElementById('pomo-reset');
-
-function actualizarDisplayPomo() {
-  const min = String(Math.floor(tiempo / 60)).padStart(2, '0');
-  const seg = String(tiempo % 60).padStart(2, '0');
-  displayPomo.textContent = `${min}:${seg}`;
+:root {
+  /* Paleta Pastel Rosa y Morado */
+  --bg-color: #fce4ec; /* Rosa suave de fondo */
+  --card-bg: #ffffff;
+  --text-main: #3c2a4d;
+  --text-muted: #7e6b8f;
+  
+  --pastel-pink: #f8bbd0;
+  --pastel-purple: #e1bee7;
+  --pastel-lavender: #d1c4e9;
+  --pastel-blue: #c5cae9;
+  --border-radius: 16px;
 }
 
-btnStart.addEventListener('click', () => {
-  if (timerId !== null) {
-    clearInterval(timerId);
-    timerId = null;
-    btnStart.textContent = 'Reanudar';
-  } else {
-    btnStart.textContent = 'Pausar';
-    timerId = setInterval(() => {
-      if (tiempo > 0) {
-        tiempo--;
-        actualizarDisplayPomo();
-      } else {
-        clearInterval(timerId);
-        alert('¡Tiempo de estudio terminado! Toma 5 minutos de descanso.');
-      }
-    }, 1000);
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1050px;
+  margin: 0 auto;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  background: var(--card-bg);
+  padding: 20px 25px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 15px rgba(225, 190, 231, 0.4);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #4a148c;
+}
+
+#reloj {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #8e24aa;
+}
+
+.card-alerta {
+  background: #f3e5f5;
+  border-left: 6px solid #ab47bc;
+  margin-bottom: 20px;
+}
+
+.quick-access {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.card-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  color: var(--text-main);
+  font-weight: 600;
+  transition: transform 0.2s ease;
+}
+
+.card-link:hover {
+  transform: translateY(-3px);
+}
+
+.pastel-pink { background-color: var(--pastel-pink); }
+.pastel-purple { background-color: var(--pastel-purple); }
+.pastel-lavender { background-color: var(--pastel-lavender); }
+.pastel-blue { background-color: var(--pastel-blue); }
+
+.grid-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: 20px;
+}
+
+@media (max-width: 500px) {
+  .grid-layout {
+    grid-template-columns: 1fr;
   }
-});
-
-btnReset.addEventListener('click', () => {
-  clearInterval(timerId);
-  timerId = null;
-  tiempo = 25 * 60;
-  btnStart.textContent = 'Iniciar Focus';
-  actualizarDisplayPomo();
-});
-
-// Control de Tareas con LocalStorage
-const btnTarea = document.getElementById('btn-agregar-tarea');
-const inputTarea = document.getElementById('tarea-desc');
-const listaTareas = document.getElementById('lista-tareas');
-
-let tareas = JSON.parse(localStorage.getItem('cch_tareas_v2')) || [];
-
-function renderTareas() {
-  listaTareas.innerHTML = '';
-  tareas.forEach((t, i) => {
-    const li = document.createElement('li');
-    li.innerHTML = `<span>${t}</span> <small style="color:red; cursor:pointer;" onclick="eliminarTarea(${i})">✖ Eliminar</small>`;
-    listaTareas.appendChild(li);
-  });
 }
 
-btnTarea.addEventListener('click', () => {
-  if (!inputTarea.value.trim()) return;
-  tareas.push(inputTarea.value.trim());
-  localStorage.setItem('cch_tareas_v2', JSON.stringify(tareas));
-  inputTarea.value = '';
-  renderTareas();
-});
+.card {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 22px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
 
-window.eliminarTarea = function(index) {
-  tareas.splice(index, 1);
-  localStorage.setItem('cch_tareas_v2', JSON.stringify(tareas));
-  renderTareas();
-};
+.card h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  color: #4a148c;
+}
 
-renderTareas();
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px 10px;
+  text-align: center;
+  border: 1px solid #f3e5f5;
+  font-size: 0.85rem;
+}
+
+th {
+  background-color: var(--pastel-purple);
+  color: #4a148c;
+}
+
+.btn-sub {
+  display: inline-block;
+  background: var(--pastel-purple);
+  color: #4a148c;
+  padding: 8px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.calendar-inputs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.calendar-inputs input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #e1bee7;
+  border-radius: 8px;
+  outline: none;
+}
+
+.calendar-inputs button {
+  background-color: var(--pastel-pink);
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  color: #4a148c;
+  cursor: pointer;
+}
+
+.event-list {
+  list-style: none;
+  padding: 0;
+}
+
+.event-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background-color: #fbf4fa;
+  border-left: 4px solid #ab47bc;
+  margin-bottom: 8px;
+  border-radius: 4px;
+}
+  
