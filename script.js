@@ -1,202 +1,185 @@
-:root {
-  --bg-color: #fce4ec;
-  --card-bg: #ffffff;
-  --text-main: #3c2a4d;
-  --pastel-pink: #f8bbd0;
-  --pastel-purple: #e1bee7;
-  --pastel-lavender: #d1c4e9;
-  --pastel-blue: #c5cae9;
-  --border-radius: 16px;
+// Reloj (12 Horas AM/PM), Fecha y Notificador de Clase
+function actualizarReloj() {
+  const ahora = new Date();
+  document.getElementById('reloj').textContent = ahora.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+  document.getElementById('fecha').textContent = ahora.toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'short' });
+  verificarClaseActual(ahora);
 }
 
-body {
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  background-color: var(--bg-color);
-  color: var(--text-main);
-  margin: 0;
-  padding: 20px;
+function obtenerMensajeClase(ahora) {
+  const dia = ahora.getDay(); // 1: Lun, 2: Mar, 3: Mié, 4: Jue, 5: Vie
+  const hora = ahora.getHours();
+
+  if (dia < 1 || dia > 5) return "🎉 Fin de semana sin clases.";
+
+  if (hora >= 15 && hora < 16) {
+    if (dia === 1 || dia === 3 || dia === 5) return "📖 Clase Actual (03:00 p.m. - 04:00 p.m.): Matemáticas I — Edificio [B] 04";
+    else return "📖 Clase Actual (03:00 p.m. - 04:00 p.m.): Historia Universal — Edificio [V] 02";
+  } else if (hora >= 16 && hora < 17) {
+    if (dia === 5) return "✨ Horas Libres (04:00 p.m. - 06:00 p.m.). ¡Tiempo para descansar o repasar!";
+    else if (dia === 1 || dia === 3) return "📖 Clase Actual (04:00 p.m. - 05:00 p.m.): Matemáticas I — Edificio [B] 04";
+    else return "📖 Clase Actual (04:00 p.m. - 05:00 p.m.): Historia Universal — Edificio [V] 02";
+  } else if (hora >= 17 && hora < 18) {
+    if (dia === 5) return "✨ Horas Libres (04:00 p.m. - 06:00 p.m.). ¡Tiempo para descansar o repasar!";
+    else if (dia === 1 || dia === 3) return "📖 Clase Actual (05:00 p.m. - 06:00 p.m.): Taller de Cómputo — Edificio [Z] 07";
+    else return "📖 Clase Actual (05:00 p.m. - 06:00 p.m.): Química I — Edificio [E] 13";
+  } else if (hora >= 18 && hora < 19) {
+    if (dia === 1 || dia === 3) return "📖 Clase Actual (06:00 p.m. - 07:00 p.m.): Taller de Cómputo — Edificio [Z] 07";
+    else return "📖 Clase Actual (06:00 p.m. - 07:00 p.m.): Química I — Edificio [E] 13";
+  } else if (hora >= 19 && hora < 21) {
+    if (dia === 1) return "📖 Clase Actual (07:00 p.m. - 09:00 p.m.): Inglés I — Edificio [IN] 04";
+    else if (dia === 5) return "📖 Clase Actual (07:00 p.m. - 09:00 p.m.): Inglés I — Edificio [IN] 10";
+    else return "📖 Clase Actual (07:00 p.m. - 09:00 p.m.): TLRIID I — Edificio [L] 01";
+  } else if (hora < 15) {
+    return "⏳ Tu turno inicia a las 03:00 p.m. Prepara tus cosas para el CCH Sur.";
+  } else {
+    return "🌙 Clases concluidas por hoy.";
+  }
 }
 
-.container {
-  max-width: 1050px;
-  margin: 0 auto;
+function verificarClaseActual(ahora) {
+  document.getElementById('texto-clase').textContent = obtenerMensajeClase(ahora);
+}
+setInterval(actualizarReloj, 1000);
+actualizarReloj();
+
+// Botón de Consulta Manual de Clase
+document.getElementById('btn-consultar-clase').addEventListener('click', () => {
+  const ahora = new Date();
+  const hora12 = ahora.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit', hour12: true });
+  const mensaje = obtenerMensajeClase(ahora);
+  alert(`Son las ${hora12}\n\n${mensaje}`);
+});
+
+// Nombre Editable y Guardado
+const nombreEl = document.getElementById('nombre-usuario');
+const nombreGuardado = localStorage.getItem('cch_nombre_usuario');
+if (nombreGuardado) nombreEl.textContent = nombreGuardado;
+
+nombreEl.addEventListener('blur', () => {
+  localStorage.setItem('cch_nombre_usuario', nombreEl.textContent.trim() || 'Alumno CCH');
+});
+
+// Visibilidad del Mapa
+const btnMapa = document.getElementById('btn-toggle-mapa');
+const mapaCont = document.getElementById('mapa-container');
+btnMapa.addEventListener('click', () => {
+  if (mapaCont.style.display === 'none') {
+    mapaCont.style.display = 'block';
+  } else {
+    mapaCont.style.display = 'none';
+  }
+});
+
+// Bloc de Notas Persistente
+const blocNotas = document.getElementById('bloc-notas');
+blocNotas.value = localStorage.getItem('cch_apuntes') || '';
+blocNotas.addEventListener('input', () => {
+  localStorage.setItem('cch_apuntes', blocNotas.value);
+});
+
+// Gestor de Tareas y Calendario
+let tareas = JSON.parse(localStorage.getItem('cch_tareas_v6')) || [];
+const inputDesc = document.getElementById('tarea-desc');
+const selectMat = document.getElementById('tarea-materia');
+const inputFecha = document.getElementById('tarea-fecha');
+const btnAgregar = document.getElementById('btn-agregar-tarea');
+const listaTareas = document.getElementById('lista-tareas');
+
+let currentDate = new Date();
+
+function renderTareas() {
+  listaTareas.innerHTML = '';
+  tareas.forEach((t, i) => {
+    const li = document.createElement('li');
+    li.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <strong>${t.materia}</strong>
+        <small style="color:red; cursor:pointer;" onclick="eliminarTarea(${i})">✖ Borrar</small>
+      </div>
+      <div>${t.desc}</div>
+      <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.8rem; margin-top:4px;">
+        <span>Entrega: <b>${t.fecha || 'Sin fecha'}</b></span>
+        <select class="estado-select" onchange="cambiarEstado(${i}, this.value)">
+          <option value="Pendiente" ${t.estado === 'Pendiente' ? 'selected' : ''}>⏳ Pendiente</option>
+          <option value="Hecha" ${t.estado === 'Hecha' ? 'selected' : ''}>✅ Sí la hice</option>
+          <option value="No entregada" ${t.estado === 'No entregada' ? 'selected' : ''}>❌ No la hice</option>
+          <option value="Sin tarea" ${t.estado === 'Sin tarea' ? 'selected' : ''}>⚪ No dejaron</option>
+        </select>
+      </div>
+    `;
+    listaTareas.appendChild(li);
+  });
+  renderCalendar();
 }
 
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  background: var(--card-bg);
-  padding: 20px 25px;
-  border-radius: var(--border-radius);
-  box-shadow: 0 4px 15px rgba(225, 190, 231, 0.4);
+btnAgregar.addEventListener('click', () => {
+  if (!inputDesc.value.trim()) return;
+  tareas.push({
+    desc: inputDesc.value.trim(),
+    materia: selectMat.value,
+    fecha: inputFecha.value,
+    estado: 'Pendiente'
+  });
+  localStorage.setItem('cch_tareas_v6', JSON.stringify(tareas));
+  inputDesc.value = '';
+  inputFecha.value = '';
+  renderTareas();
+});
+
+window.eliminarTarea = function(i) {
+  tareas.splice(i, 1);
+  localStorage.setItem('cch_tareas_v6', JSON.stringify(tareas));
+  renderTareas();
+};
+
+window.cambiarEstado = function(i, val) {
+  tareas[i].estado = val;
+  localStorage.setItem('cch_tareas_v6', JSON.stringify(tareas));
+};
+
+function renderCalendar() {
+  const monthYear = document.getElementById('cal-month-year');
+  const grid = document.getElementById('calendar-grid');
+  grid.innerHTML = '';
+
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+
+  monthYear.textContent = currentDate.toLocaleDateString('es-MX', { month: 'long', year: 'numeric' });
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  for (let i = 0; i < firstDay; i++) {
+    const empty = document.createElement('div');
+    grid.appendChild(empty);
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const dayDiv = document.createElement('div');
+    dayDiv.className = 'cal-day';
+    dayDiv.textContent = day;
+
+    const formattedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const tieneTarea = tareas.some(t => t.fecha === formattedDate);
+
+    if (tieneTarea) {
+      dayDiv.classList.add('has-task');
+    }
+
+    grid.appendChild(dayDiv);
+  }
 }
 
-header h1 {
-  margin: 0;
-  font-size: 1.5rem;
-  color: #4a148c;
-}
+document.getElementById('cal-prev').addEventListener('click', () => {
+  currentDate.setMonth(currentDate.getMonth() - 1);
+  renderCalendar();
+});
 
-#nombre-usuario {
-  border-bottom: 2px dashed #ab47bc;
-  outline: none;
-  cursor: pointer;
-}
+document.getElementById('cal-next').addEventListener('click', () => {
+  currentDate.setMonth(currentDate.getMonth() + 1);
+  renderCalendar();
+});
 
-#reloj {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #8e24aa;
-}
-
-.card-alerta {
-  background: #f3e5f5;
-  border-left: 6px solid #ab47bc;
-  margin-bottom: 20px;
-}
-
-.btn-accion {
-  background-color: var(--pastel-pink);
-  color: #4a148c;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.quick-access {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 15px;
-  margin-bottom: 25px;
-}
-
-.card-link {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 18px;
-  border-radius: var(--border-radius);
-  text-decoration: none;
-  color: var(--text-main);
-  font-weight: 600;
-}
-
-.pastel-pink { background-color: var(--pastel-pink); }
-.pastel-purple { background-color: var(--pastel-purple); }
-.pastel-lavender { background-color: var(--pastel-lavender); }
-.pastel-blue { background-color: var(--pastel-blue); }
-
-.grid-layout {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
-  gap: 20px;
-}
-
-.grid-full {
-  grid-column: 1 / -1;
-}
-
-.card {
-  background: var(--card-bg);
-  border-radius: var(--border-radius);
-  padding: 22px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
-}
-
-.card h2 {
-  margin-top: 0;
-  font-size: 1.2rem;
-  color: #4a148c;
-}
-
-.table-wrapper {
-  overflow-x: auto;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th, td {
-  padding: 10px;
-  text-align: center;
-  border: 1px solid #f3e5f5;
-  font-size: 0.9rem;
-}
-
-th {
-  background-color: var(--pastel-purple);
-  color: #4a148c;
-}
-
-.form-tarea {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-
-.form-tarea input, .form-tarea select, .form-tarea button {
-  padding: 10px;
-  border: 1px solid #e1bee7;
-  border-radius: 8px;
-  font-size: 0.9rem;
-}
-
-.form-tarea button {
-  background-color: var(--pastel-pink);
-  color: #4a148c;
-  font-weight: bold;
-  cursor: pointer;
-  border: none;
-}
-
-.event-list {
-  list-style: none;
-  padding: 0;
-}
-
-.event-list li {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 10px 12px;
-  background-color: #fbf4fa;
-  border-left: 5px solid #ab47bc;
-  margin-bottom: 10px;
-  border-radius: 6px;
-}
-
-#calendar-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-#calendar-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 5px;
-  text-align: center;
-}
-
-.cal-day {
-  padding: 8px 2px;
-  background: #f3e5f5;
-  border-radius: 6px;
-  font-size: 0.8rem;
-  min-height: 35px;
-}
-
-.cal-day.has-task {
-  background: var(--pastel-pink);
-  font-weight: bold;
-  border: 1px solid #ab47bc;
-}
+renderTareas();
