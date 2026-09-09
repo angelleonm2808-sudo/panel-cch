@@ -10,8 +10,8 @@
   <div class="container">
     <header>
       <div class="user-info">
-        <h1>¡Hola, Alumno CCH! 🏫</h1>
-        <p>CCH Sur • Turno y Semestre Activo</p>
+        <h1>¡Hola, Ángel Iñaki! 🏫</h1>
+        <p>CCH Sur • Turno Vespertino (003) • 1er Semestre</p>
       </div>
       <div id="reloj-card">
         <span id="reloj">00:00:00</span>
@@ -19,62 +19,92 @@
       </div>
     </header>
 
-    <!-- Acceso Rápido -->
+    <!-- Alerta de Clase Actual -->
+    <section id="alerta-clase" class="card card-alerta">
+      <h2>🔔 Estado Actual</h2>
+      <p id="texto-clase">Cargando horario...</p>
+    </section>
+
+    <!-- Accesos Rápidos -->
     <section class="quick-access">
       <a href="https://teams.microsoft.com" target="_blank" class="card-link pastel-purple">
         <span class="icon">💬</span>
         <span>Abrir Teams</span>
       </a>
-      <a href="#mapa-seccion" class="card-link pastel-green">
+      <a href="#mapa-seccion" class="card-link pastel-pink">
         <span class="icon">🗺️</span>
-        <span>Ver Mapa del Plantel</span>
+        <span>Mapa CCH Sur</span>
       </a>
-      <a href="#estudio-pomodoro" class="card-link pastel-blue">
+      <a href="#estudio-pomodoro" class="card-link pastel-lavender">
         <span class="icon">⏱️</span>
-        <span>Modo Estudio (Pomodoro)</span>
+        <span>Modo Estudio</span>
       </a>
-      <a href="#tareas" class="card-link pastel-yellow">
+      <a href="#tareas" class="card-link pastel-blue">
         <span class="icon">📋</span>
         <span>Mis Tareas</span>
       </a>
     </section>
 
     <main class="grid-layout">
-      <!-- Tira de Materias -->
+      <!-- Tira de Materias Oficial CCH Sur -->
       <section id="tira-materias" class="card">
-        <h2>📚 Tira de Materias y Salones</h2>
+        <h2>📚 Tira de Materias (Turno Vespertino)</h2>
         <div class="table-wrapper">
           <table>
             <thead>
               <tr>
-                <th>Materia</th>
-                <th>Profesor(a)</th>
                 <th>Horario</th>
-                <th>Edificio / Salón</th>
+                <th>Lunes</th>
+                <th>Martes</th>
+                <th>Miércoles</th>
+                <th>Jueves</th>
+                <th>Viernes</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Matemáticas I</td>
-                <td>Prof. Ejemplo</td>
-                <td>Lun - Mié 07:00-09:00</td>
-                <td>Edificio B - Salón 12</td>
+                <td>15:00 - 17:00</td>
+                <td>Matemáticas I<br><small>E-104 | Gp. 146B</small></td>
+                <td>Hist. Universal<br><small>E-102 | Gp. 0146</small></td>
+                <td>Matemáticas I<br><small>E-104 | Gp. 146B</small></td>
+                <td>Hist. Universal<br><small>E-102 | Gp. 0146</small></td>
+                <td>Matemáticas I<br><small>E-104 | Gp. 146B</small></td>
               </tr>
               <tr>
-                <td>TLRIID I</td>
-                <td>Prof. Ejemplo</td>
-                <td>Mar - Jue 09:00-11:00</td>
-                <td>SILADIN - Lab 2</td>
+                <td>17:00 - 19:00</td>
+                <td>TLRIID I<br><small>E-107 | Gp. 0146</small></td>
+                <td>Química I<br><small>E-113 | Gp. 144B</small></td>
+                <td>TLRIID I<br><small>E-107 | Gp. 0146</small></td>
+                <td>Química I<br><small>E-113 | Gp. 144B</small></td>
+                <td>TLRIID I<br><small>E-107 | Gp. 0146</small></td>
+              </tr>
+              <tr>
+                <td>19:00 - 21:00</td>
+                <td>Taller Cómputo<br><small>M-104 | Gp. 146B</small></td>
+                <td>Inglés I<br><small>L-101 | Gp. 146B</small></td>
+                <td>Taller Cómputo<br><small>M-104 | Gp. 146B</small></td>
+                <td>Inglés I<br><small>L-101 | Gp. 146B</small></td>
+                <td>Taller Cómputo<br><small>M-104 | Gp. 146B</small></td>
               </tr>
             </tbody>
           </table>
         </div>
       </section>
 
-      <!-- Nueva Función: Temporizador Pomodoro para Estudiar -->
-      <section id="estudio-pomodoro" class="card pastel-blue-card">
-        <h2>⏱️ Reloj de Estudio (Técnica Pomodoro)</h2>
-        <p class="subtitle">Estudia 25 min seguidos y descansa 5 min para concentrarte mejor.</p>
+      <!-- Mapa Oficial del Plantel Sur -->
+      <section id="mapa-seccion" class="card">
+        <h2>🗺️ Mapa Oficial CCH Sur</h2>
+        <p class="subtitle">Ubica Edificios E, M, L y SILADIN.</p>
+        <div class="mapa-container">
+          <img src="mapa-cch.jpg" id="img-mapa" alt="Mapa Oficial CCH Sur" style="width:100%; border-radius:10px; display:block; margin-bottom:12px;">
+          <a href="https://maps.google.com/?q=CCH+Sur+UNAM" target="_blank" class="btn-sub">Abrir GPS Google Maps</a>
+        </div>
+      </section>
+
+      <!-- Temporizador Pomodoro -->
+      <section id="estudio-pomodoro" class="card pastel-lavender-card">
+        <h2>⏱️ Reloj de Estudio (Pomodoro)</h2>
+        <p class="subtitle">25 min de enfoque / 5 min descanso</p>
         <div class="pomodoro-display">
           <span id="pomo-timer">25:00</span>
         </div>
@@ -84,36 +114,14 @@
         </div>
       </section>
 
-      <!-- Mapa del Plantel (Imagen + Enlace) -->
-      <section id="mapa-seccion" class="card">
-        <h2>🗺️ Mapa del CCH Sur</h2>
-        <p class="subtitle">Ubica edificios, laboratorios y explanada.</p>
-        <div class="mapa-container">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/ thumb/c/c5/UNAM_logo.svg/1200px-UNAM_logo.svg.png" id="img-mapa" alt="Mapa CCH Sur" style="width:100%; border-radius:8px; display:block; margin-bottom:10px;">
-          <!-- Nota: Puedes cambiar la URL de arriba por una imagen directa del mapa del CCH Sur -->
-          <a href="https://maps.google.com/?q=CCH+Sur+UNAM" target="_blank" class="btn-sub">Abrir en Google Maps GPS</a>
-        </div>
-      </section>
-
-      <!-- Gestor de Tareas y Tareas Pendientes -->
+      <!-- Control de Tareas -->
       <section id="tareas" class="card">
-        <h2>📋 Control de Tareas & Proyectos</h2>
+        <h2>📋 Pendientes y Tareas</h2>
         <div class="calendar-inputs">
-          <input type="text" id="tarea-desc" placeholder="Ej. Resumen de Historia pág 45...">
+          <input type="text" id="tarea-desc" placeholder="Ej. Práctica de Química Edif. E...">
           <button id="btn-agregar-tarea">Agregar</button>
         </div>
         <ul id="lista-tareas" class="event-list"></ul>
-      </section>
-
-      <!-- Checklist "Mochila Lista" -->
-      <section class="card pastel-pink-card">
-        <h2>🎒 Checklist "Mochila Lista"</h2>
-        <div class="checklist">
-          <label><input type="checkbox"> Credencial UNAM / CCH</label>
-          <label><input type="checkbox"> Cuadernos y plumas</label>
-          <label><input type="checkbox"> Bata de laboratorio (SILADIN)</label>
-          <label><input type="checkbox"> Cargador de teléfono</label>
-        </div>
       </section>
     </main>
   </div>
