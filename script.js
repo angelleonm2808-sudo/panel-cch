@@ -79,7 +79,7 @@ blocNotas.addEventListener('input', () => {
 });
 
 // Gestor de Tareas y Calendario
-let tareas = JSON.parse(localStorage.getItem('cch_tareas_v6')) || [];
+let tareas = JSON.parse(localStorage.getItem('cch_tareas_v7')) || [];
 const inputDesc = document.getElementById('tarea-desc');
 const selectMat = document.getElementById('tarea-materia');
 const inputFecha = document.getElementById('tarea-fecha');
@@ -121,7 +121,7 @@ btnAgregar.addEventListener('click', () => {
     fecha: inputFecha.value,
     estado: 'Pendiente'
   });
-  localStorage.setItem('cch_tareas_v6', JSON.stringify(tareas));
+  localStorage.setItem('cch_tareas_v7', JSON.stringify(tareas));
   inputDesc.value = '';
   inputFecha.value = '';
   renderTareas();
@@ -129,13 +129,13 @@ btnAgregar.addEventListener('click', () => {
 
 window.eliminarTarea = function(i) {
   tareas.splice(i, 1);
-  localStorage.setItem('cch_tareas_v6', JSON.stringify(tareas));
+  localStorage.setItem('cch_tareas_v7', JSON.stringify(tareas));
   renderTareas();
 };
 
 window.cambiarEstado = function(i, val) {
   tareas[i].estado = val;
-  localStorage.setItem('cch_tareas_v6', JSON.stringify(tareas));
+  localStorage.setItem('cch_tareas_v7', JSON.stringify(tareas));
 };
 
 function renderCalendar() {
