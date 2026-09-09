@@ -35,19 +35,19 @@
         <span class="icon">🗺️</span>
         <span>Mapa CCH Sur</span>
       </a>
-      <a href="#estudio-pomodoro" class="card-link pastel-lavender">
-        <span class="icon">⏱️</span>
-        <span>Modo Estudio</span>
-      </a>
-      <a href="#tareas" class="card-link pastel-blue">
-        <span class="icon">📋</span>
+      <a href="#gestor-tareas" class="card-link pastel-lavender">
+        <span class="icon">📝</span>
         <span>Mis Tareas</span>
+      </a>
+      <a href="#seccion-calendario" class="card-link pastel-blue">
+        <span class="icon">📅</span>
+        <span>Calendario</span>
       </a>
     </section>
 
     <main class="grid-layout">
-      <!-- Tira de Materias Oficial CCH Sur -->
-      <section id="tira-materias" class="card">
+      <!-- Tira de Materias Exacta CCH Sur -->
+      <section id="tira-materias" class="card grid-full">
         <h2>📚 Tira de Materias (Turno Vespertino)</h2>
         <div class="table-wrapper">
           <table>
@@ -64,64 +64,69 @@
             <tbody>
               <tr>
                 <td>15:00 - 17:00</td>
-                <td>Matemáticas I<br><small>E-104 | Gp. 146B</small></td>
-                <td>Hist. Universal<br><small>E-102 | Gp. 0146</small></td>
-                <td>Matemáticas I<br><small>E-104 | Gp. 146B</small></td>
-                <td>Hist. Universal<br><small>E-102 | Gp. 0146</small></td>
-                <td>Matemáticas I<br><small>E-104 | Gp. 146B</small></td>
+                <td>Matemáticas I<br><small>Edif. [B] 04</small></td>
+                <td>Hist. Universal<br><small>Edif. [V] 02</small></td>
+                <td>Matemáticas I<br><small>Edif. [B] 04</small></td>
+                <td>Hist. Universal<br><small>Edif. [V] 02</small></td>
+                <td>Matemáticas I<br><small>Edif. [B] 04</small></td>
               </tr>
               <tr>
                 <td>17:00 - 19:00</td>
-                <td>TLRIID I<br><small>E-107 | Gp. 0146</small></td>
-                <td>Química I<br><small>E-113 | Gp. 144B</small></td>
-                <td>TLRIID I<br><small>E-107 | Gp. 0146</small></td>
-                <td>Química I<br><small>E-113 | Gp. 144B</small></td>
-                <td>TLRIID I<br><small>E-107 | Gp. 0146</small></td>
+                <td>Taller Cómputo<br><small>Edif. [Z] 07</small></td>
+                <td>Química I<br><small>Edif. [E] 13</small></td>
+                <td>Taller Cómputo<br><small>Edif. [Z] 07</small></td>
+                <td>Química I<br><small>Edif. [E] 13</small></td>
+                <td>Química I<br><small>Edif. [E] 13</small></td>
               </tr>
               <tr>
                 <td>19:00 - 21:00</td>
-                <td>Taller Cómputo<br><small>M-104 | Gp. 146B</small></td>
-                <td>Inglés I<br><small>L-101 | Gp. 146B</small></td>
-                <td>Taller Cómputo<br><small>M-104 | Gp. 146B</small></td>
-                <td>Inglés I<br><small>L-101 | Gp. 146B</small></td>
-                <td>Taller Cómputo<br><small>M-104 | Gp. 146B</small></td>
+                <td>Inglés I<br><small>Edif. [IN] 04</small></td>
+                <td>TLRIID I<br><small>Edif. [L] 01</small></td>
+                <td>TLRIID I<br><small>Edif. [L] 01</small></td>
+                <td>TLRIID I<br><small>Edif. [L] 01</small></td>
+                <td>Inglés I<br><small>Edif. [IN] 10</small></td>
               </tr>
             </tbody>
           </table>
         </div>
       </section>
 
-      <!-- Mapa Oficial del Plantel Sur -->
-      <section id="mapa-seccion" class="card">
-        <h2>🗺️ Mapa Oficial CCH Sur</h2>
-        <p class="subtitle">Ubica Edificios E, M, L y SILADIN.</p>
-        <div class="mapa-container">
-          <img src="mapa-cch.jpg" id="img-mapa" alt="Mapa Oficial CCH Sur" style="width:100%; border-radius:10px; display:block; margin-bottom:12px;">
-          <a href="https://maps.google.com/?q=CCH+Sur+UNAM" target="_blank" class="btn-sub">Abrir GPS Google Maps</a>
-        </div>
-      </section>
-
-      <!-- Temporizador Pomodoro -->
-      <section id="estudio-pomodoro" class="card pastel-lavender-card">
-        <h2>⏱️ Reloj de Estudio (Pomodoro)</h2>
-        <p class="subtitle">25 min de enfoque / 5 min descanso</p>
-        <div class="pomodoro-display">
-          <span id="pomo-timer">25:00</span>
-        </div>
-        <div class="pomodoro-controls">
-          <button id="pomo-start">Iniciar Focus</button>
-          <button id="pomo-reset">Reiniciar</button>
-        </div>
-      </section>
-
-      <!-- Control de Tareas -->
-      <section id="tareas" class="card">
-        <h2>📋 Pendientes y Tareas</h2>
-        <div class="calendar-inputs">
-          <input type="text" id="tarea-desc" placeholder="Ej. Práctica de Química Edif. E...">
-          <button id="btn-agregar-tarea">Agregar</button>
+      <!-- Gestor de Tareas y Tareas Pendientes -->
+      <section id="gestor-tareas" class="card">
+        <h2>📝 Control de Tareas y Entregas</h2>
+        <div class="form-tarea">
+          <input type="text" id="tarea-desc" placeholder="Descripción de la tarea...">
+          <select id="tarea-materia">
+            <option value="Matemáticas I">Matemáticas I [B]</option>
+            <option value="Hist. Universal">Historia Universal [V]</option>
+            <option value="Taller Cómputo">Taller de Cómputo [Z]</option>
+            <option value="Química I">Química I [E]</option>
+            <option value="Inglés I">Inglés I [IN]</option>
+            <option value="TLRIID I">TLRIID I [L]</option>
+          </select>
+          <input type="date" id="tarea-fecha">
+          <button id="btn-agregar-tarea">Guardar Tarea</button>
         </div>
         <ul id="lista-tareas" class="event-list"></ul>
+      </section>
+
+      <!-- Calendario Integrado -->
+      <section id="seccion-calendario" class="card">
+        <h2>📅 Calendario de Entregas</h2>
+        <div id="calendar-header">
+          <button id="cal-prev">◀</button>
+          <span id="cal-month-year"></span>
+          <button id="cal-next">▶</button>
+        </div>
+        <div id="calendar-grid"></div>
+      </section>
+
+      <!-- Mapa Oficial CCH Sur (Imagen Directa) -->
+      <section id="mapa-seccion" class="card grid-full">
+        <h2>🗺️ Mapa del CCH Sur</h2>
+        <div class="mapa-container">
+          <img src="mapa-cch.jpg" alt="Mapa Oficial CCH Sur" style="width:100%; max-width:900px; display:block; margin: 0 auto; border-radius:12px;">
+        </div>
       </section>
     </main>
   </div>
