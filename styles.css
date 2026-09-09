@@ -1,10 +1,7 @@
 :root {
-  /* Paleta Pastel Rosa y Morado */
-  --bg-color: #fce4ec; /* Rosa suave de fondo */
+  --bg-color: #fce4ec;
   --card-bg: #ffffff;
   --text-main: #3c2a4d;
-  --text-muted: #7e6b8f;
-  
   --pastel-pink: #f8bbd0;
   --pastel-purple: #e1bee7;
   --pastel-lavender: #d1c4e9;
@@ -70,11 +67,6 @@ header h1 {
   text-decoration: none;
   color: var(--text-main);
   font-weight: 600;
-  transition: transform 0.2s ease;
-}
-
-.card-link:hover {
-  transform: translateY(-3px);
 }
 
 .pastel-pink { background-color: var(--pastel-pink); }
@@ -88,10 +80,8 @@ header h1 {
   gap: 20px;
 }
 
-@media (max-width: 500px) {
-  .grid-layout {
-    grid-template-columns: 1fr;
-  }
+.grid-full {
+  grid-column: 1 / -1;
 }
 
 .card {
@@ -117,10 +107,10 @@ table {
 }
 
 th, td {
-  padding: 8px 10px;
+  padding: 10px;
   text-align: center;
   border: 1px solid #f3e5f5;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
 }
 
 th {
@@ -128,38 +118,27 @@ th {
   color: #4a148c;
 }
 
-.btn-sub {
-  display: inline-block;
-  background: var(--pastel-purple);
-  color: #4a148c;
-  padding: 8px 14px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.calendar-inputs {
+/* Formulario Tareas */
+.form-tarea {
   display: flex;
+  flex-direction: column;
   gap: 10px;
   margin-bottom: 15px;
 }
 
-.calendar-inputs input {
-  flex: 1;
+.form-tarea input, .form-tarea select, .form-tarea button {
   padding: 10px;
   border: 1px solid #e1bee7;
   border-radius: 8px;
-  outline: none;
+  font-size: 0.9rem;
 }
 
-.calendar-inputs button {
+.form-tarea button {
   background-color: var(--pastel-pink);
-  border: none;
-  padding: 10px 16px;
-  border-radius: 8px;
-  font-weight: 600;
   color: #4a148c;
+  font-weight: bold;
   cursor: pointer;
+  border: none;
 }
 
 .event-list {
@@ -169,11 +148,47 @@ th {
 
 .event-list li {
   display: flex;
-  justify-content: space-between;
-  padding: 8px 12px;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
   background-color: #fbf4fa;
-  border-left: 4px solid #ab47bc;
-  margin-bottom: 8px;
-  border-radius: 4px;
+  border-left: 5px solid #ab47bc;
+  margin-bottom: 10px;
+  border-radius: 6px;
 }
-  
+
+.estado-select {
+  padding: 4px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+/* Calendario */
+#calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+#calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  text-align: center;
+}
+
+.cal-day {
+  padding: 8px 2px;
+  background: #f3e5f5;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  min-height: 35px;
+}
+
+.cal-day.has-task {
+  background: var(--pastel-pink);
+  font-weight: bold;
+  border: 1px solid #ab47bc;
+}
