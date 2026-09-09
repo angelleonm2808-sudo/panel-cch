@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Dashboard - CCH Sur</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="user-info">
+        <h1>¡Hola, Alumno CCH! 🏫</h1>
+        <p>CCH Sur • Turno y Semestre Activo</p>
+      </div>
+      <div id="reloj-card">
+        <span id="reloj">00:00:00</span>
+        <span id="fecha">Cargando fecha...</span>
+      </div>
+    </header>
+
+    <!-- Acceso Rápido -->
+    <section class="quick-access">
+      <a href="https://teams.microsoft.com" target="_blank" class="card-link pastel-purple">
+        <span class="icon">💬</span>
+        <span>Abrir Teams</span>
+      </a>
+      <a href="#mapa-seccion" class="card-link pastel-green">
+        <span class="icon">🗺️</span>
+        <span>Ver Mapa del Plantel</span>
+      </a>
+      <a href="#estudio-pomodoro" class="card-link pastel-blue">
+        <span class="icon">⏱️</span>
+        <span>Modo Estudio (Pomodoro)</span>
+      </a>
+      <a href="#tareas" class="card-link pastel-yellow">
+        <span class="icon">📋</span>
+        <span>Mis Tareas</span>
+      </a>
+    </section>
+
+    <main class="grid-layout">
+      <!-- Tira de Materias -->
+      <section id="tira-materias" class="card">
+        <h2>📚 Tira de Materias y Salones</h2>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Materia</th>
+                <th>Profesor(a)</th>
+                <th>Horario</th>
+                <th>Edificio / Salón</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Matemáticas I</td>
+                <td>Prof. Ejemplo</td>
+                <td>Lun - Mié 07:00-09:00</td>
+                <td>Edificio B - Salón 12</td>
+              </tr>
+              <tr>
+                <td>TLRIID I</td>
+                <td>Prof. Ejemplo</td>
+                <td>Mar - Jue 09:00-11:00</td>
+                <td>SILADIN - Lab 2</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Nueva Función: Temporizador Pomodoro para Estudiar -->
+      <section id="estudio-pomodoro" class="card pastel-blue-card">
+        <h2>⏱️ Reloj de Estudio (Técnica Pomodoro)</h2>
+        <p class="subtitle">Estudia 25 min seguidos y descansa 5 min para concentrarte mejor.</p>
+        <div class="pomodoro-display">
+          <span id="pomo-timer">25:00</span>
+        </div>
+        <div class="pomodoro-controls">
+          <button id="pomo-start">Iniciar Focus</button>
+          <button id="pomo-reset">Reiniciar</button>
+        </div>
+      </section>
+
+      <!-- Mapa del Plantel (Imagen + Enlace) -->
+      <section id="mapa-seccion" class="card">
+        <h2>🗺️ Mapa del CCH Sur</h2>
+        <p class="subtitle">Ubica edificios, laboratorios y explanada.</p>
+        <div class="mapa-container">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/ thumb/c/c5/UNAM_logo.svg/1200px-UNAM_logo.svg.png" id="img-mapa" alt="Mapa CCH Sur" style="width:100%; border-radius:8px; display:block; margin-bottom:10px;">
+          <!-- Nota: Puedes cambiar la URL de arriba por una imagen directa del mapa del CCH Sur -->
+          <a href="https://maps.google.com/?q=CCH+Sur+UNAM" target="_blank" class="btn-sub">Abrir en Google Maps GPS</a>
+        </div>
+      </section>
+
+      <!-- Gestor de Tareas y Tareas Pendientes -->
+      <section id="tareas" class="card">
+        <h2>📋 Control de Tareas & Proyectos</h2>
+        <div class="calendar-inputs">
+          <input type="text" id="tarea-desc" placeholder="Ej. Resumen de Historia pág 45...">
+          <button id="btn-agregar-tarea">Agregar</button>
+        </div>
+        <ul id="lista-tareas" class="event-list"></ul>
+      </section>
+
+      <!-- Checklist "Mochila Lista" -->
+      <section class="card pastel-pink-card">
+        <h2>🎒 Checklist "Mochila Lista"</h2>
+        <div class="checklist">
+          <label><input type="checkbox"> Credencial UNAM / CCH</label>
+          <label><input type="checkbox"> Cuadernos y plumas</label>
+          <label><input type="checkbox"> Bata de laboratorio (SILADIN)</label>
+          <label><input type="checkbox"> Cargador de teléfono</label>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

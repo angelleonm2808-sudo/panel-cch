@@ -1,0 +1,81 @@
+// Reloj y Fecha
+function actualizarReloj() {
+  const ahora = new Date();
+  document.getElementById('reloj').textContent = ahora.toLocaleTimeString('es-MX');
+  document.getElementById('fecha').textContent = ahora.toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'short' });
+}
+setInterval(actualizarReloj, 1000);
+actualizarReloj();
+
+// Pomodoro Timer
+let tiempo = 25 * 60;
+let timerId = null;
+
+const displayPomo = document.getElementById('pomo-timer');
+const btnStart = document.getElementById('pomo-start');
+const btnReset = document.getElementById('pomo-reset');
+
+function actualizarDisplayPomo() {
+  const min = String(Math.floor(tiempo / 60)).padStart(2, '0');
+  const seg = String(tiempo % 60).padStart(2, '0');
+  displayPomo.textContent = `${min}:${seg}`;
+}
+
+btnStart.addEventListener('click', () => {
+  if (timerId !== null) {
+    clearInterval(timerId);
+    timerId = null;
+    btnStart.textContent = 'Reanudar';
+  } else {
+    btnStart.textContent = 'Pausar';
+    timerId = setInterval(() => {
+      if (tiempo > 0) {
+        tiempo--;
+        actualizarDisplayPomo();
+      } else {
+        clearInterval(timerId);
+        alert('¡Tiempo de estudio terminado! Toma 5 minutos de descanso.');
+      }
+    }, 1000);
+  }
+});
+
+btnReset.addEventListener('click', () => {
+  clearInterval(timerId);
+  timerId = null;
+  tiempo = 25 * 60;
+  btnStart.textContent = 'Iniciar Focus';
+  actualizarDisplayPomo();
+});
+
+// Control de Tareas con LocalStorage
+const btnTarea = document.getElementById('btn-agregar-tarea');
+const inputTarea = document.getElementById('tarea-desc');
+const listaTareas = document.getElementById('lista-tareas');
+
+let tareas = JSON.parse(localStorage.getItem('cch_tareas_v2')) || [];
+
+function renderTareas() {
+  listaTareas.innerHTML = '';
+  tareas.forEach((t, i) => {
+    const li = document.createElement('li');
+    li.innerHTML = `<span>${t}</span> <small style="color:red; cursor:pointer;" onclick="eliminarTarea(${i})">✖ Eliminar</small>`;
+    listaTareas.appendChild(li);
+  });
+}
+
+btnTarea.addEventListener('click', () => {
+  if (!inputTarea.value.trim()) return;
+  tareas.push(inputTarea.value.trim());
+  localStorage.setItem('cch_tareas_v2', JSON.stringify(tareas));
+  inputTarea.value = '';
+  renderTareas();
+});
+
+window.eliminarTarea = function(index) {
+  tareas.splice(index, 1);
+  localStorage.setItem('cch_tareas_v2', JSON.stringify(tareas));
+  renderTareas();
+};
+
+renderTareas();
