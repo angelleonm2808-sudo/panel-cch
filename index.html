@@ -4,46 +4,67 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <!-- Configuración PWA / Modo Sin Internet -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#7e22ce">
   
-  <!-- SEO para Google -->
-  <title>Grupo 146B - CCH Sur | Panel de Estudio y Horario</title>
-  <meta name="description" content="Panel de tareas, horarios, mapas y avisos del grupo 146B del CCH Sur.">
-  <meta name="keywords" content="146b, 146B, CCH Sur, cch sur 146b, grupo 146b cch sur, panel cch sur">
+  <title>Grupo 146B - CCH Sur | Panel de Control</title>
+  <meta name="description" content="Panel de tareas, horarios y asistencias del grupo 146B del CCH Sur.">
+  <meta name="keywords" content="146b, CCH Sur, panel cch sur">
   <meta name="robots" content="index, follow">
   
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="container">
-    <header>
-      <div class="user-info">
-        <h1>¡Hola, <span id="nombre-usuario" contenteditable="true" title="Haz clic para editar el nombre">Ángel Iñaki</span>! ✏️</h1>
-        <p>CCH Sur • Grupo 146B • Turno Vespertino (003) • 1er Semestre</p>
-      </div>
-      <div id="reloj-card">
-        <span id="reloj">12:00:00 p.m.</span>
-        <span id="fecha">Cargando fecha...</span>
-      </div>
-    </header>
-
-    <!-- Alerta de Clase Actual, Botón de Consulta y Activar Notificaciones -->
-    <section id="alerta-clase" class="card card-alerta">
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap:10px;">
-        <div>
-          <h2>🔔 Estado Actual</h2>
-          <p id="texto-clase">Cargando horario...</p>
-        </div>
-        <div style="display:flex; gap:10px; flex-wrap:wrap;">
-          <button id="btn-consultar-clase" class="btn-accion">❓ ¿Qué clase me toca ahora?</button>
-          <button onclick="pedirPermisoNotificaciones()" class="btn-accion" style="background-color: #7e22ce; color: white;">🔔 Activar Alertas</button>
-        </div>
+    
+    <!-- MÓDULO DE INICIO DE SESIÓN -->
+    <section id="sec-login" class="card" style="margin-bottom: 20px;">
+      <h2>🔑 Inicio de Sesión / Perfil</h2>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+        <input type="text" id="num-cuenta" placeholder="Número de Cuenta (9 dígitos)" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #d8b4fe; min-width: 180px;">
+        <input type="text" id="input-nombre" placeholder="Tu Nombre Completo" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #d8b4fe; min-width: 180px;">
+        <button onclick="guardarSesion()" class="btn-accion" style="background-color: #7e22ce; color: white;">Guardar Datos</button>
       </div>
     </section>
 
-    <!-- Accesos Rápidos -->
+    <!-- ENCABEZADO OPTIMIZADO PARA MÓVILES -->
+    <header style="display: flex; flex-direction: column; gap: 12px; background: white; padding: 16px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 20px;">
+      <div class="user-info" style="width: 100%;">
+        <h1 style="font-size: 1.4rem; color: #3b0764; margin: 0; line-height: 1.3; word-break: break-word;">
+          ¡Hola, <span id="nombre-usuario">Ángel Iñaki</span>! ✏️
+        </h1>
+        <p id="cuenta-display" style="font-size: 0.85rem; color: #6b21a8; font-weight: bold; margin: 4px 0 0 0;">Cuenta: Sin registrar</p>
+        <p style="font-size: 0.8rem; color: #666; margin: 2px 0 0 0;">CCH Sur • Grupo 146B • Turno Vespertino (003)</p>
+      </div>
+      <div id="reloj-card" style="background: #f3e8ff; padding: 10px; border-radius: 10px; text-align: center;">
+        <span id="reloj" style="display: block; font-size: 1.2rem; font-weight: bold; color: #5b21b6;">12:00:00 p.m.</span>
+        <span id="fecha" style="font-size: 0.85rem; color: #6b21a8;">Cargando fecha...</span>
+      </div>
+    </header>
+
+    <!-- ESTADO ACTUAL Y REGISTRO DE ASISTENCIA -->
+    <section id="alerta-clase" class="card card-alerta">
+      <h2>🔔 Estado de Clase y Asistencia</h2>
+      <p id="texto-clase" style="font-weight: bold; color: #3b0764; font-size: 1rem; margin: 10px 0;">Cargando horario...</p>
+      
+      <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;">
+        <button id="btn-consultar-clase" class="btn-accion" style="flex: 1; min-width: 140px;">❓ ¿Qué clase me toca?</button>
+        <button onclick="pedirPermisoNotificaciones()" class="btn-accion" style="background-color: #7e22ce; color: white; flex: 1; min-width: 140px;">🔔 Notificaciones</button>
+      </div>
+
+      <!-- Panel de Registro de Asistencia -->
+      <div id="panel-asistencia" style="margin-top: 15px; background: #fdf4ff; padding: 12px; border-radius: 10px; border: 1px solid #e1bee7;">
+        <p style="font-size: 0.85rem; font-weight: bold; margin-bottom: 8px; color: #5b21b6;">Registrar asistencia de la clase actual:</p>
+        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+          <button onclick="marcarAsistencia('Asistí')" style="flex: 1; padding: 8px; border: none; border-radius: 6px; background: #dcfce7; color: #15803d; font-weight: bold; cursor: pointer;">✅ Asistí</button>
+          <button onclick="marcarAsistencia('Llegué Tarde')" style="flex: 1; padding: 8px; border: none; border-radius: 6px; background: #fef9c3; color: #a16207; font-weight: bold; cursor: pointer;">⚠️ Llegué Tarde</button>
+          <button onclick="marcarAsistencia('Falté')" style="flex: 1; padding: 8px; border: none; border-radius: 6px; background: #fee2e2; color: #b91c1c; font-weight: bold; cursor: pointer;">❌ Falté</button>
+        </div>
+        <p id="registro-confirmado" style="font-size: 0.8rem; margin-top: 6px; color: #4c1d95; text-align: center; font-weight: bold;"></p>
+      </div>
+    </section>
+
+    <!-- ACCESOS RÁPIDOS -->
     <section class="quick-access">
       <a href="msteams://" class="card-link pastel-purple">
         <span class="icon">💬</span>
@@ -57,21 +78,18 @@
         <span class="icon">📝</span>
         <span>Mis Tareas</span>
       </a>
-      <a href="#seccion-directorio" class="card-link pastel-blue">
-        <span class="icon">📞</span>
-        <span>Contactos Útiles</span>
-      </a>
     </section>
 
     <main class="grid-layout">
-      <!-- Tira de Materias Exacta CCH Sur (Viernes 4-6 PM Libre) -->
+      
+      <!-- HORARIO AGRUPADO DE 2 EN 2 HORAS -->
       <section id="tira-materias" class="card grid-full">
-        <h2>📚 Tira de Materias - Grupo 146B (Turno Vespertino)</h2>
+        <h2>📚 Horario Agrupatedo (Bloques de 2 Horas)</h2>
         <div class="table-wrapper">
           <table>
             <thead>
               <tr>
-                <th>Horario</th>
+                <th>Bloque de Horario</th>
                 <th>Lunes</th>
                 <th>Martes</th>
                 <th>Miércoles</th>
@@ -81,38 +99,23 @@
             </thead>
             <tbody>
               <tr>
-                <td>03:00 p.m. - 04:00 p.m.</td>
+                <td><b>03:00 p.m. - 05:00 p.m.</b></td>
                 <td>Matemáticas I<br><small>Edif. [B] 04</small></td>
                 <td>Hist. Universal<br><small>Edif. [V] 02</small></td>
                 <td>Matemáticas I<br><small>Edif. [B] 04</small></td>
                 <td>Hist. Universal<br><small>Edif. [V] 02</small></td>
-                <td>Matemáticas I<br><small>Edif. [B] 04</small></td>
+                <td>Matemáticas I (3-4)<br><small>Edif. [B] 04</small><br><span style="color:#15803d; font-weight:bold;">✨ Libres (4-5)</span></td>
               </tr>
               <tr>
-                <td>04:00 p.m. - 05:00 p.m.</td>
-                <td>Matemáticas I<br><small>Edif. [B] 04</small></td>
-                <td>Hist. Universal<br><small>Edif. [V] 02</small></td>
-                <td>Matemáticas I<br><small>Edif. [B] 04</small></td>
-                <td>Hist. Universal<br><small>Edif. [V] 02</small></td>
-                <td rowspan="2" style="background-color: #e8f5e9; color: #2e7d32; font-weight: bold; vertical-align: middle;">✨ Horas Libres<br><small>(04:00 p.m. - 06:00 p.m.)</small></td>
-              </tr>
-              <tr>
-                <td>05:00 p.m. - 06:00 p.m.</td>
+                <td><b>05:00 p.m. - 07:00 p.m.</b></td>
                 <td>Taller Cómputo<br><small>Edif. [Z] 07</small></td>
                 <td>Química I<br><small>Edif. [E] 13</small></td>
                 <td>Taller Cómputo<br><small>Edif. [Z] 07</small></td>
                 <td>Química I<br><small>Edif. [E] 13</small></td>
+                <td><span style="color:#15803d; font-weight:bold;">✨ Libres (5-6)</span><br>Química I (6-7)<br><small>Edif. [E] 13</small></td>
               </tr>
               <tr>
-                <td>06:00 p.m. - 07:00 p.m.</td>
-                <td>Taller Cómputo<br><small>Edif. [Z] 07</small></td>
-                <td>Química I<br><small>Edif. [E] 13</small></td>
-                <td>Taller Cómputo<br><small>Edif. [Z] 07</small></td>
-                <td>Química I<br><small>Edif. [E] 13</small></td>
-                <td>Química I<br><small>Edif. [E] 13</small></td>
-              </tr>
-              <tr>
-                <td>07:00 p.m. - 09:00 p.m.</td>
+                <td><b>07:00 p.m. - 09:00 p.m.</b></td>
                 <td>Inglés I<br><small>Edif. [IN] 04</small></td>
                 <td>TLRIID I<br><small>Edif. [L] 01</small></td>
                 <td>TLRIID I<br><small>Edif. [L] 01</small></td>
@@ -124,7 +127,7 @@
         </div>
       </section>
 
-      <!-- Gestor de Tareas y Entregas -->
+      <!-- GESTOR DE TAREAS -->
       <section id="gestor-tareas" class="card">
         <h2>📝 Control de Tareas</h2>
         <div class="form-tarea">
@@ -143,7 +146,7 @@
         <ul id="lista-tareas" class="event-list"></ul>
       </section>
 
-      <!-- Calendario Integrado -->
+      <!-- CALENDARIO INTEGRADO -->
       <section id="seccion-calendario" class="card">
         <h2>📅 Calendario de Entregas</h2>
         <div id="calendar-header">
@@ -151,49 +154,50 @@
           <span id="cal-month-year"></span>
           <button id="cal-next">▶</button>
         </div>
-        <!-- Días de la semana para una correcta alineación visual -->
         <div class="calendar-days-header" style="display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-weight: bold; margin-bottom: 8px; color: #5b21b6; font-size: 0.85rem;">
           <span>Dom</span><span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span>
         </div>
         <div id="calendar-grid"></div>
       </section>
 
-      <!-- Portales UNAM -->
+      <!-- PORTALES UNAM Y CALCULADORA -->
       <section id="seccion-unam" class="card">
-        <h2>🏫 Portales Escolares UNAM</h2>
-        <div style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;">
+        <h2>🏫 Portales UNAM y Promedio</h2>
+        <div style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; margin-bottom: 15px;">
           <a href="https://www.siae.unam.mx" target="_blank" class="btn-accion" style="text-decoration:none; text-align:center;">SIAE UNAM</a>
           <a href="https://www.dgae.unam.mx" target="_blank" class="btn-accion" style="text-decoration:none; text-align:center; background-color:#3b0764;">Mi Portal DGAE</a>
         </div>
+        <hr style="border: 0; border-top: 1px solid #e1bee7; margin: 15px 0;">
+        <h3>📊 Calculadora de Promedio</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 6px; margin-top: 8px;">
+          <input type="number" min="0" max="10" class="input-calif" placeholder="Matemáticas I">
+          <input type="number" min="0" max="10" class="input-calif" placeholder="Hist. Universal">
+          <input type="number" min="0" max="10" class="input-calif" placeholder="Taller Cómputo">
+          <input type="number" min="0" max="10" class="input-calif" placeholder="Química I">
+          <input type="number" min="0" max="10" class="input-calif" placeholder="Inglés I">
+          <input type="number" min="0" max="10" class="input-calif" placeholder="TLRIID I">
+        </div>
+        <button onclick="calcularPromedio()" class="btn-accion" style="width: 100%; margin-top: 10px;">Calcular Promedio</button>
+        <p id="resultado-promedio" style="font-weight: bold; font-size: 1rem; text-align: center; margin-top: 8px; color: #5b21b6;"></p>
       </section>
 
-      <!-- Mapa Interactivo del Plantel -->
+      <!-- MAPA INTERACTIVO DEL PLANTEL -->
       <section id="mapa-seccion" class="card grid-full">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-          <h2>🗺️ Mapa del CCH Sur</h2>
-          <button id="btn-toggle-mapa" class="btn-accion">👁️ Mostrar / Ocultar Mapa</button>
+          <h2>🗺️ Mapa CCH Sur</h2>
+          <button id="btn-toggle-mapa" class="btn-accion">👁️ Mostrar / Ocultar</button>
         </div>
         <div id="mapa-container" style="display:block; text-align:center;">
           <img src="mapa-cch.jpg" alt="Mapa Oficial CCH Sur" style="width:100%; max-width:900px; border-radius:12px; border:2px solid #e1bee7;">
         </div>
       </section>
 
-      <!-- Apuntes Rápidos de Clase -->
+      <!-- APUNTES RÁPIDOS -->
       <section id="seccion-notas" class="card">
         <h2>📌 Apuntes Rápidos</h2>
-        <textarea id="bloc-notas" placeholder="Escribe aquí notas rápidas, salones temporales, avisos de profesores..." rows="6" style="width:100%; border-radius:8px; border:1px solid #e1bee7; padding:10px; box-sizing:border-box; outline:none;"></textarea>
+        <textarea id="bloc-notas" placeholder="Escribe notas de clase o pendientes..." rows="5" style="width:100%; border-radius:8px; border:1px solid #e1bee7; padding:10px; box-sizing:border-box; outline:none;"></textarea>
       </section>
 
-      <!-- Directorio y Servicios Útiles -->
-      <section id="seccion-directorio" class="card">
-        <h2>📞 Servicios y Teléfonos CCH Sur</h2>
-        <ul style="list-style:none; padding:0; font-size:0.9rem; line-height:1.6;">
-          <li>🚑 <b>Servicio Médico:</b> Edificio J (Servicios Médicos)</li>
-          <li>💻 <b>PC PUMA / Wi-Fi:</b> Biblioteca central y Sala de Cómputo</li>
-          <li>📚 <b>Tutorías:</b> Edificio F (Planta alta)</li>
-          <li>🛡️ <b>Mesa de Ayuda / Control Escolar:</b> Edificio K</li>
-        </ul>
-      </section>
     </main>
   </div>
   <script src="script.js"></script>
