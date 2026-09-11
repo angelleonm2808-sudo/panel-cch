@@ -10,13 +10,16 @@ function pedirPermisoNotificaciones() {
     Notification.requestPermission().then((perm) => {
       if (perm === 'granted') {
         alert('¡Notificaciones activadas!');
+        verificarNotificacionesTareas();
+      } else {
+        alert('Para recibir alertas de tareas a las 9:00 AM, activa las notificaciones.');
       }
     });
   }
 }
 
 // ==========================================
-// 2. INICIO DE SESIÓN Y NOMBRE (CORREGIDO)
+// 2. INICIO DE SESIÓN Y NOMBRE
 // ==========================================
 function cargarSesion() {
   const nombreGuardado = localStorage.getItem('cch_nombre_usuario');
@@ -60,7 +63,6 @@ function guardarSesion() {
   alert('¡Datos guardados con éxito!');
 }
 
-// Asegurar que las funciones queden disponibles globalmente para los botones HTML
 window.guardarSesion = guardarSesion;
 window.pedirPermisoNotificaciones = pedirPermisoNotificaciones;
 
@@ -165,12 +167,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   renderTareas();
   renderCalendar();
+  verificarNotificacionesTareas();
 });
 
 setInterval(actualizarReloj, 1000);
 
+// Comprobar tareas pendientes cada minuto
+setInterval(verificarNotificacionesTareas, 60000);
+
 // ==========================================
-// 5. TAREAS Y CALENDARIO
+// 5. TAREAS, NOTIFICACIONES Y CALENDARIO
 // ==========================================
 let tareas = JSON.parse(localStorage.getItem('cch_tareas_v7')) || [];
 let currentDate = new Date();
@@ -179,6 +185,7 @@ function renderTareas() {
   const listaTareas = document.getElementById('lista-tareas');
   if (!listaTareas) return;
   listaTareas.innerHTML = '';
+  
   tareas.forEach((t, i) => {
     const li = document.createElement('li');
     li.innerHTML = `
@@ -191,7 +198,7 @@ function renderTareas() {
         <span>Entrega: <b>${t.fecha || 'Sin fecha'}</b></span>
         <select onchange="cambiarEstado(${i}, this.value)">
           <option value="Pendiente" ${t.estado === 'Pendiente' ? 'selected' : ''}>⏳ Pendiente</option>
-          <option value="Hecha" ${t.estado === 'Hecha' ? 'selected' : ''}>✅ Entregada</option>
+          <option value="Hecha">✅ Entregada (Completar)</option>
         </select>
       </div>
     `;
@@ -208,7 +215,7 @@ if (btnAgregar) {
     const inputFecha = document.getElementById('tarea-fecha');
     
     if (!inputDesc || !inputDesc.value.trim()) return;
-    tareas.push({ desc: inputDesc.value.trim(), materia: selectMat.value, fecha: inputFecha.value, estado: 'Pendiente' });
+    tareas.push({ desc: inputDesc.value.trim(), materia: selectMat.value, fecha: inputFecha.value, estado: 'Pendiente', notificada: false });
     localStorage.setItem('cch_tareas_v7', JSON.stringify(tareas));
     inputDesc.value = '';
     inputFecha.value = '';
@@ -222,10 +229,42 @@ window.eliminarTarea = function(i) {
   renderTareas();
 };
 
+// Si se selecciona "Hecha", la tarea se borra automáticamente de la lista y del calendario
 window.cambiarEstado = function(i, val) {
-  tareas[i].estado = val;
+  if (val === 'Hecha') {
+    tareas.splice(i, 1);
+  } else {
+    tareas[i].estado = val;
+  }
   localStorage.setItem('cch_tareas_v7', JSON.stringify(tareas));
+  renderTareas();
 };
+
+// Sistema de Notificaciones a las 9:00 AM
+function verificarNotificacionesTareas() {
+  if (!('Notification' in window) || Notification.permission !== 'granted') return;
+
+  const ahora = new Date();
+  const year = ahora.getFullYear();
+  const month = String(ahora.getMonth() + 1).padStart(2, '0');
+  const day = String(ahora.getDate()).padStart(2, '0');
+  const hoyFormatted = `${year}-${month}-${day}`;
+  const horaActual = ahora.getHours();
+
+  // Solo notificar si la hora es 9:00 AM o posterior
+  if (horaActual >= 9) {
+    tareas.forEach((t, index) => {
+      if (t.fecha === hoyFormatted && t.estado === 'Pendiente' && !t.notificada) {
+        new Notification("📝 Tarea pendiente para hoy - CCH Sur", {
+          body: `Tienes pendiente la entrega de ${t.materia}: "${t.desc}"`,
+          icon: "icon-192.png"
+        });
+        tareas[index].notificada = true;
+      }
+    });
+    localStorage.setItem('cch_tareas_v7', JSON.stringify(tareas));
+  }
+}
 
 function renderCalendar() {
   const monthYear = document.getElementById('cal-month-year');
@@ -251,7 +290,9 @@ function renderCalendar() {
     dayDiv.className = 'cal-day';
     dayDiv.textContent = day;
     const formattedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    if (tareas.some(t => t.fecha === formattedDate)) {
+    
+    // Solo marca el día en el calendario si tiene tareas pendientes asociadas
+    if (tareas.some(t => t.fecha === formattedDate && t.estado === 'Pendiente')) {
       dayDiv.classList.add('has-task');
     }
     grid.appendChild(dayDiv);
