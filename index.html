@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
+  <!-- Configuración PWA / Modo Sin Internet -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#7e22ce">
+  
   <!-- SEO para Google -->
   <title>Grupo 146B - CCH Sur | Panel de Estudio y Horario</title>
   <meta name="description" content="Panel de tareas, horarios, mapas y avisos del grupo 146B del CCH Sur.">
@@ -25,22 +29,25 @@
       </div>
     </header>
 
-    <!-- Alerta de Clase Actual y Botón de Consulta Manual -->
+    <!-- Alerta de Clase Actual, Botón de Consulta y Activar Notificaciones -->
     <section id="alerta-clase" class="card card-alerta">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap:10px;">
         <div>
           <h2>🔔 Estado Actual</h2>
           <p id="texto-clase">Cargando horario...</p>
         </div>
-        <button id="btn-consultar-clase" class="btn-accion">❓ ¿Qué clase me toca ahora?</button>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button id="btn-consultar-clase" class="btn-accion">❓ ¿Qué clase me toca ahora?</button>
+          <button onclick="pedirPermisoNotificaciones()" class="btn-accion" style="background-color: #7e22ce; color: white;">🔔 Activar Alertas</button>
+        </div>
       </div>
     </section>
 
     <!-- Accesos Rápidos -->
     <section class="quick-access">
-      <a href="https://teams.microsoft.com" target="_blank" class="card-link pastel-purple">
+      <a href="msteams://" class="card-link pastel-purple">
         <span class="icon">💬</span>
-        <span>Abrir Teams</span>
+        <span>Abrir Teams App</span>
       </a>
       <a href="#mapa-seccion" class="card-link pastel-pink">
         <span class="icon">🗺️</span>
@@ -144,7 +151,20 @@
           <span id="cal-month-year"></span>
           <button id="cal-next">▶</button>
         </div>
+        <!-- Días de la semana para una correcta alineación visual -->
+        <div class="calendar-days-header" style="display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-weight: bold; margin-bottom: 8px; color: #5b21b6; font-size: 0.85rem;">
+          <span>Dom</span><span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span>
+        </div>
         <div id="calendar-grid"></div>
+      </section>
+
+      <!-- Portales UNAM -->
+      <section id="seccion-unam" class="card">
+        <h2>🏫 Portales Escolares UNAM</h2>
+        <div style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;">
+          <a href="https://www.siae.unam.mx" target="_blank" class="btn-accion" style="text-decoration:none; text-align:center;">SIAE UNAM</a>
+          <a href="https://www.dgae.unam.mx" target="_blank" class="btn-accion" style="text-decoration:none; text-align:center; background-color:#3b0764;">Mi Portal DGAE</a>
+        </div>
       </section>
 
       <!-- Mapa Interactivo del Plantel -->
