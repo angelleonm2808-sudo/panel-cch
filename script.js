@@ -1,13 +1,89 @@
-// Reloj (12 Horas AM/PM), Fecha y Notificador de Clase
+// ==========================================
+// 1. REGISTRO PWA Y SISTEMA DE NOTIFICACIONES
+// ==========================================
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js')
+    .then(() => console.log('App lista para funcionar sin internet'))
+    .catch((err) => console.log('Error al registrar Service Worker:', err));
+}
+
+function pedirPermisoNotificaciones() {
+  if ('Notification' in window) {
+    Notification.requestPermission().then((perm) => {
+      if (perm === 'granted') {
+        alert('¡Notificaciones activadas! Te avisaremos 15 minutos antes de tus clases.');
+        revisarNotificacionesClase();
+      } else {
+        alert('Permiso de notificaciones denegado.');
+      }
+    });
+  } else {
+    alert('Tu navegador no soporta notificaciones locales.');
+  }
+}
+
+// HORARIO DE CLASES GRUPO 146B (TURNO VESPERTINO)
+const horarioNotificaciones = [
+  { dia: 1, hora: "15:00", materia: "Matemáticas I", salon: "Edificio [B] 04" },
+  { dia: 1, hora: "17:00", materia: "Taller de Cómputo", salon: "Edificio [Z] 07" },
+  { dia: 1, hora: "19:00", materia: "Inglés I", salon: "Edificio [IN] 04" },
+  { dia: 2, hora: "15:00", materia: "Historia Universal", salon: "Edificio [V] 02" },
+  { dia: 2, hora: "17:00", materia: "Química I", salon: "Edificio [E] 13" },
+  { dia: 2, hora: "19:00", materia: "TLRIID I", salon: "Edificio [L] 01" },
+  { dia: 3, hora: "15:00", materia: "Matemáticas I", salon: "Edificio [B] 04" },
+  { dia: 3, hora: "17:00", materia: "Taller de Cómputo", salon: "Edificio [Z] 07" },
+  { dia: 3, hora: "19:00", materia: "TLRIID I", salon: "Edificio [L] 01" },
+  { dia: 4, hora: "15:00", materia: "Historia Universal", salon: "Edificio [V] 02" },
+  { dia: 4, hora: "17:00", materia: "Química I", salon: "Edificio [E] 13" },
+  { dia: 4, hora: "19:00", materia: "TLRIID I", salon: "Edificio [L] 01" },
+  { dia: 5, hora: "15:00", materia: "Matemáticas I", salon: "Edificio [B] 04" },
+  { dia: 5, hora: "18:00", materia: "Química I", salon: "Edificio [E] 13" },
+  { dia: 5, hora: "19:00", materia: "Inglés I", salon: "Edificio [IN] 10" }
+];
+
+function revisarNotificacionesClase() {
+  if (Notification.permission !== 'granted') return;
+
+  const ahora = new Date();
+  const diaSemana = ahora.getDay();
+  const horas = ahora.getHours();
+  const minutos = ahora.getMinutes();
+  const horaActual = `${horas.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}`;
+
+  horarioNotificaciones.forEach(clase => {
+    if (clase.dia === diaSemana) {
+      let [h, m] = clase.hora.split(':').map(Number);
+      let mNotif = m - 15;
+      let hNotif = h;
+      if (mNotif < 0) {
+        mNotif += 60;
+        hNotif -= 1;
+      }
+      let tiempoNotif = `${hNotif.toString().padStart(2, '0')}:${mNotif.toString().padStart(2, '0')}`;
+
+      if (horaActual === tiempoNotif) {
+        new Notification(`⏰ ¡Próxima Clase en 15 min!`, {
+          body: `${clase.materia} en ${clase.salon}`,
+          icon: 'https://cdn-icons-png.flaticon.com/512/2232/2232688.png'
+        });
+      }
+    }
+  });
+}
+
+// ==========================================
+// 2. RELOJ Y MENSAJES DE ESTADO DE CLASE
+// ==========================================
 function actualizarReloj() {
   const ahora = new Date();
   document.getElementById('reloj').textContent = ahora.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
   document.getElementById('fecha').textContent = ahora.toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'short' });
   verificarClaseActual(ahora);
+  revisarNotificacionesClase();
 }
 
 function obtenerMensajeClase(ahora) {
-  const dia = ahora.getDay(); // 1: Lun, 2: Mar, 3: Mié, 4: Jue, 5: Vie
+  const dia = ahora.getDay(); 
   const hora = ahora.getHours();
 
   if (dia < 1 || dia > 5) return "🎉 Fin de semana sin clases.";
@@ -38,47 +114,54 @@ function obtenerMensajeClase(ahora) {
 }
 
 function verificarClaseActual(ahora) {
-  document.getElementById('texto-clase').textContent = obtenerMensajeClase(ahora);
+  const el = document.getElementById('texto-clase');
+  if (el) el.textContent = obtenerMensajeClase(ahora);
 }
+
 setInterval(actualizarReloj, 1000);
 actualizarReloj();
 
-// Botón de Consulta Manual de Clase
-document.getElementById('btn-consultar-clase').addEventListener('click', () => {
-  const ahora = new Date();
-  const hora12 = ahora.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit', hour12: true });
-  const mensaje = obtenerMensajeClase(ahora);
-  alert(`Son las ${hora12}\n\n${mensaje}`);
-});
+const btnConsultar = document.getElementById('btn-consultar-clase');
+if (btnConsultar) {
+  btnConsultar.addEventListener('click', () => {
+    const ahora = new Date();
+    const hora12 = ahora.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit', hour12: true });
+    const mensaje = obtenerMensajeClase(ahora);
+    alert(`Son las ${hora12}\n\n${mensaje}`);
+  });
+}
 
-// Nombre Editable y Guardado
+// ==========================================
+// 3. PERSISTENCIA DE NOMBRE Y NOTAS
+// ==========================================
 const nombreEl = document.getElementById('nombre-usuario');
-const nombreGuardado = localStorage.getItem('cch_nombre_usuario');
-if (nombreGuardado) nombreEl.textContent = nombreGuardado;
+if (nombreEl) {
+  const nombreGuardado = localStorage.getItem('cch_nombre_usuario');
+  if (nombreGuardado) nombreEl.textContent = nombreGuardado;
+  nombreEl.addEventListener('blur', () => {
+    localStorage.setItem('cch_nombre_usuario', nombreEl.textContent.trim() || 'Alumno CCH');
+  });
+}
 
-nombreEl.addEventListener('blur', () => {
-  localStorage.setItem('cch_nombre_usuario', nombreEl.textContent.trim() || 'Alumno CCH');
-});
-
-// Visibilidad del Mapa
 const btnMapa = document.getElementById('btn-toggle-mapa');
 const mapaCont = document.getElementById('mapa-container');
-btnMapa.addEventListener('click', () => {
-  if (mapaCont.style.display === 'none') {
-    mapaCont.style.display = 'block';
-  } else {
-    mapaCont.style.display = 'none';
-  }
-});
+if (btnMapa && mapaCont) {
+  btnMapa.addEventListener('click', () => {
+    mapaCont.style.display = (mapaCont.style.display === 'none') ? 'block' : 'none';
+  });
+}
 
-// Bloc de Notas Persistente
 const blocNotas = document.getElementById('bloc-notas');
-blocNotas.value = localStorage.getItem('cch_apuntes') || '';
-blocNotas.addEventListener('input', () => {
-  localStorage.setItem('cch_apuntes', blocNotas.value);
-});
+if (blocNotas) {
+  blocNotas.value = localStorage.getItem('cch_apuntes') || '';
+  blocNotas.addEventListener('input', () => {
+    localStorage.setItem('cch_apuntes', blocNotas.value);
+  });
+}
 
-// Gestor de Tareas y Calendario
+// ==========================================
+// 4. CONTROL DE TAREAS Y CALENDARIO
+// ==========================================
 let tareas = JSON.parse(localStorage.getItem('cch_tareas_v7')) || [];
 const inputDesc = document.getElementById('tarea-desc');
 const selectMat = document.getElementById('tarea-materia');
@@ -89,6 +172,7 @@ const listaTareas = document.getElementById('lista-tareas');
 let currentDate = new Date();
 
 function renderTareas() {
+  if (!listaTareas) return;
   listaTareas.innerHTML = '';
   tareas.forEach((t, i) => {
     const li = document.createElement('li');
@@ -113,19 +197,21 @@ function renderTareas() {
   renderCalendar();
 }
 
-btnAgregar.addEventListener('click', () => {
-  if (!inputDesc.value.trim()) return;
-  tareas.push({
-    desc: inputDesc.value.trim(),
-    materia: selectMat.value,
-    fecha: inputFecha.value,
-    estado: 'Pendiente'
+if (btnAgregar) {
+  btnAgregar.addEventListener('click', () => {
+    if (!inputDesc.value.trim()) return;
+    tareas.push({
+      desc: inputDesc.value.trim(),
+      materia: selectMat.value,
+      fecha: inputFecha.value,
+      estado: 'Pendiente'
+    });
+    localStorage.setItem('cch_tareas_v7', JSON.stringify(tareas));
+    inputDesc.value = '';
+    inputFecha.value = '';
+    renderTareas();
   });
-  localStorage.setItem('cch_tareas_v7', JSON.stringify(tareas));
-  inputDesc.value = '';
-  inputFecha.value = '';
-  renderTareas();
-});
+}
 
 window.eliminarTarea = function(i) {
   tareas.splice(i, 1);
@@ -141,8 +227,9 @@ window.cambiarEstado = function(i, val) {
 function renderCalendar() {
   const monthYear = document.getElementById('cal-month-year');
   const grid = document.getElementById('calendar-grid');
-  grid.innerHTML = '';
+  if (!monthYear || !grid) return;
 
+  grid.innerHTML = '';
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
 
@@ -172,14 +259,21 @@ function renderCalendar() {
   }
 }
 
-document.getElementById('cal-prev').addEventListener('click', () => {
-  currentDate.setMonth(currentDate.getMonth() - 1);
-  renderCalendar();
-});
+const btnCalPrev = document.getElementById('cal-prev');
+const btnCalNext = document.getElementById('cal-next');
 
-document.getElementById('cal-next').addEventListener('click', () => {
-  currentDate.setMonth(currentDate.getMonth() + 1);
-  renderCalendar();
-});
+if (btnCalPrev) {
+  btnCalPrev.addEventListener('click', () => {
+    currentDate.setMonth(currentDate.getMonth() - 1);
+    renderCalendar();
+  });
+}
+
+if (btnCalNext) {
+  btnCalNext.addEventListener('click', () => {
+    currentDate.setMonth(currentDate.getMonth() + 1);
+    renderCalendar();
+  });
+}
 
 renderTareas();
