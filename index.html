@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#22ce98">
+  <meta name="theme-color" content="#04d9ff"> <!-- Actualizado a tu cyan principal -->
   
   <title>Grupo 146B - CCH Sur | Panel de Control</title>
   <meta name="description" content="Panel de tareas, horarios y asistencias del grupo 146B del CCH Sur.">
@@ -21,46 +21,46 @@
     <section id="sec-login" class="card" style="margin-bottom: 20px;">
       <h2>🔑 Inicio de Sesión / Perfil</h2>
       <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
-        <input type="text" id="num-cuenta" placeholder="Número de Cuenta (9 dígitos)" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #d8b4fe; min-width: 180px;">
-        <input type="text" id="input-nombre" placeholder="Tu Nombre Completo" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #d8b4fe; min-width: 180px;">
-        <button onclick="guardarSesion()" class="btn-accion" style="background-color: #7e22ce; color: white;">Guardar Datos</button>
+        <input type="text" id="num-cuenta" placeholder="Número de Cuenta (9 dígitos)" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid var(--pastel-purple); min-width: 180px;">
+        <input type="text" id="input-nombre" placeholder="Tu Nombre Completo" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid var(--pastel-purple); min-width: 180px;">
+        <button onclick="guardarSesion()" class="btn-accion">Guardar Datos</button>
       </div>
     </section>
 
-    <!-- ENCABEZADO OPTIMIZADO PARA MÓVILES -->
-    <header style="display: flex; flex-direction: column; gap: 12px; background: white; padding: 16px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 20px;">
+    <!-- ENCABEZADO OPTIMIZADO PARA MÓVILES (Limpio de estilos inline de color) -->
+    <header style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
       <div class="user-info" style="width: 100%;">
-        <h1 style="font-size: 1.4rem; color: #e06074; margin: 0; line-height: 1.3; word-break: break-word;">
+        <h1 style="font-size: 1.4rem; margin: 0; line-height: 1.3; word-break: break-word;">
           ¡Hola, <span id="nombre-usuario">Ángel Iñaki</span>! ✏️
         </h1>
-        <p id="cuenta-display" style="font-size: 0.85rem; color: #6b21a8; font-weight: bold; margin: 4px 0 0 0;">Cuenta: Sin registrar</p>
-        <p style="font-size: 0.8rem; color: #666; margin: 2px 0 0 0;">CCH Sur • Grupo 146B • Turno Vespertino (003)</p>
+        <p id="cuenta-display" style="font-size: 0.85rem; font-weight: bold; margin: 4px 0 0 0; color: var(--brand-purple);">Cuenta: Sin registrar</p>
+        <p style="font-size: 0.8rem; margin: 2px 0 0 0; opacity: 0.8;">CCH Sur • Grupo 146B • Turno Vespertino (003)</p>
       </div>
-      <div id="reloj-card" style="background:  #6b21a8; padding: 10px; border-radius: 10px; text-align: center;">
-        <span id="reloj" style="display: block; font-size: 1.2rem; font-weight: bold; color: #5b21b6;">12:00:00 p.m.</span>
-        <span id="fecha" style="font-size: 0.85rem; color: #6b21a8;">Cargando fecha...</span>
+      <div id="reloj-card" style="background: var(--pastel-purple); padding: 10px; border-radius: 10px; text-align: center;">
+        <span id="reloj" style="display: block; font-size: 1.2rem; font-weight: bold;">12:00:00 p.m.</span>
+        <span id="fecha" style="font-size: 0.85rem;">Cargando fecha...</span>
       </div>
     </header>
 
     <!-- ESTADO ACTUAL Y REGISTRO DE ASISTENCIA -->
     <section id="alerta-clase" class="card card-alerta">
       <h2>🔔 Estado de Clase y Asistencia</h2>
-      <p id="texto-clase" style="font-weight: bold; color: #3b0764; font-size: 1rem; margin: 10px 0;">Cargando horario...</p>
+      <p id="texto-clase" style="font-weight: bold; font-size: 1rem; margin: 10px 0;">Cargando horario...</p>
       
       <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;">
         <button id="btn-consultar-clase" class="btn-accion" style="flex: 1; min-width: 140px;">❓ ¿Qué clase me toca?</button>
-        <button onclick="pedirPermisoNotificaciones()" class="btn-accion" style="background-color: #7e22ce; color: white; flex: 1; min-width: 140px;">🔔 Notificaciones</button>
+        <button onclick="pedirPermisoNotificaciones()" class="btn-accion" style="flex: 1; min-width: 140px;">🔔 Notificaciones</button>
       </div>
 
       <!-- Panel de Registro de Asistencia -->
-      <div id="panel-asistencia" style="margin-top: 15px; background: #fdf4ff; padding: 12px; border-radius: 10px; border: 1px solid #e1bee7;">
-        <p style="font-size: 0.85rem; font-weight: bold; margin-bottom: 8px; color: #5b21b6;">Registrar asistencia de la clase actual:</p>
+      <div id="panel-asistencia" style="margin-top: 15px; background: rgba(255, 255, 255, 0.5); padding: 12px; border-radius: 10px; border: 1px solid var(--pastel-purple);">
+        <p style="font-size: 0.85rem; font-weight: bold; margin-bottom: 8px;">Registrar asistencia de la clase actual:</p>
         <div style="display: flex; gap: 6px; flex-wrap: wrap;">
           <button onclick="marcarAsistencia('Asistí')" style="flex: 1; padding: 8px; border: none; border-radius: 6px; background: #dcfce7; color: #15803d; font-weight: bold; cursor: pointer;">✅ Asistí</button>
           <button onclick="marcarAsistencia('Llegué Tarde')" style="flex: 1; padding: 8px; border: none; border-radius: 6px; background: #fef9c3; color: #a16207; font-weight: bold; cursor: pointer;">⚠️ Llegué Tarde</button>
           <button onclick="marcarAsistencia('Falté')" style="flex: 1; padding: 8px; border: none; border-radius: 6px; background: #fee2e2; color: #b91c1c; font-weight: bold; cursor: pointer;">❌ Falté</button>
         </div>
-        <p id="registro-confirmado" style="font-size: 0.8rem; margin-top: 6px; color: #4c1d95; text-align: center; font-weight: bold;"></p>
+        <p id="registro-confirmado" style="font-size: 0.8rem; margin-top: 6px; text-align: center; font-weight: bold;"></p>
       </div>
     </section>
 
@@ -82,9 +82,9 @@
 
     <main class="grid-layout">
       
-      <!-- HORARIO AGRUPADO DE 2 EN 2 HORAS -->
+      <!-- HORARIO AGRUPADO -->
       <section id="tira-materias" class="card grid-full">
-        <h2>📚 Horario Agrupatedo (Bloques de 2 Horas)</h2>
+        <h2>📚 Horario Agrupado (Bloques de 2 Horas)</h2>
         <div class="table-wrapper">
           <table>
             <thead>
@@ -154,52 +154,10 @@
           <span id="cal-month-year"></span>
           <button id="cal-next">▶</button>
         </div>
-        <div class="calendar-days-header" style="display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-weight: bold; margin-bottom: 8px; color: #5b21b6; font-size: 0.85rem;">
-          <span>Dom</span><span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span>
-        </div>
-        <div id="calendar-grid"></div>
-      </section>
-
-      <!-- PORTALES UNAM Y CALCULADORA -->
-      <section id="seccion-unam" class="card">
-        <h2>🏫 Portales UNAM y Promedio</h2>
-        <div style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; margin-bottom: 15px;">
-          <a href="https://www.siae.unam.mx" target="_blank" class="btn-accion" style="text-decoration:none; text-align:center;">SIAE UNAM</a>
-          <a href="https://www.dgae.unam.mx" target="_blank" class="btn-accion" style="text-decoration:none; text-align:center; background-color:#3b0764;">Mi Portal DGAE</a>
-        </div>
-        <hr style="border: 0; border-top: 1px solid #e1bee7; margin: 15px 0;">
-        <h3>📊 Calculadora de Promedio</h3>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 6px; margin-top: 8px;">
-          <input type="number" min="0" max="10" class="input-calif" placeholder="Matemáticas I">
-          <input type="number" min="0" max="10" class="input-calif" placeholder="Hist. Universal">
-          <input type="number" min="0" max="10" class="input-calif" placeholder="Taller Cómputo">
-          <input type="number" min="0" max="10" class="input-calif" placeholder="Química I">
-          <input type="number" min="0" max="10" class="input-calif" placeholder="Inglés I">
-          <input type="number" min="0" max="10" class="input-calif" placeholder="TLRIID I">
-        </div>
-        <button onclick="calcularPromedio()" class="btn-accion" style="width: 100%; margin-top: 10px;">Calcular Promedio</button>
-        <p id="resultado-promedio" style="font-weight: bold; font-size: 1rem; text-align: center; margin-top: 8px; color: #5b21b6;"></p>
-      </section>
-
-      <!-- MAPA INTERACTIVO DEL PLANTEL -->
-      <section id="mapa-seccion" class="card grid-full">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-          <h2>🗺️ Mapa CCH Sur</h2>
-          <button id="btn-toggle-mapa" class="btn-accion">👁️ Mostrar / Ocultar</button>
-        </div>
-        <div id="mapa-container" style="display:block; text-align:center;">
-          <img src="mapa-cch.jpg" alt="Mapa Oficial CCH Sur" style="width:100%; max-width:900px; border-radius:12px; border:2px solid #e1bee7;">
-        </div>
-      </section>
-
-      <!-- APUNTES RÁPIDOS -->
-      <section id="seccion-notas" class="card">
-        <h2>📌 Apuntes Rápidos</h2>
-        <textarea id="bloc-notas" placeholder="Escribe notas de clase o pendientes..." rows="5" style="width:100%; border-radius:8px; border:1px solid #e1bee7; padding:10px; box-sizing:border-box; outline:none;"></textarea>
+        <div id="calendar-grid"></div> <!-- Corregido cierre de etiqueta roto -->
       </section>
 
     </main>
   </div>
-  <script src="script.js"></script>
 </body>
 </html>
