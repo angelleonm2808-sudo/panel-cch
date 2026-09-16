@@ -1,12 +1,16 @@
 :root {
-  --bg-color: #04d9ff;
-  --card-bg: #c7c8ca;
-  --text-main: #ffffff;
+  --bg-color: #04d9ff;       /* Cyan brillante */
+  --card-bg: #c7c8ca;        /* Gris medio */
+  --text-main: #1a1a1a;      /* CORREGIDO: Texto oscuro para que sea legible sobre el gris y los pasteles */
+  --text-light: #ffffff;     /* Para contrastar sobre fondos muy oscuros si es necesario */
   --pastel-pink: #f8bbd0;
   --pastel-purple: #e1bee7;
   --pastel-lavender: #d1c4e9;
   --pastel-blue: #c5cae9;
   --border-radius: 16px;
+  
+  /* NUEVO: Un morado oscuro controlado para elementos destacados */
+  --brand-purple: #4a148c;
 }
 
 body {
@@ -30,13 +34,13 @@ header {
   background: var(--card-bg);
   padding: 20px 25px;
   border-radius: var(--border-radius);
-  box-shadow: 0 4px 15px rgba(225, 190, 231, 0.4);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* CORREGIDO: Sombra oscura sutil en vez de morada */
 }
 
 header h1 {
   margin: 0;
   font-size: 1.5rem;
-  color: #4a148c;
+  color: var(--brand-purple);
 }
 
 #nombre-usuario {
@@ -55,11 +59,12 @@ header h1 {
   background: #f3e5f5;
   border-left: 6px solid #ab47bc;
   margin-bottom: 20px;
+  color: #333333; /* CORREGIDO: Forzar texto legible en la alerta clara */
 }
 
 .btn-accion {
   background-color: var(--pastel-pink);
-  color: #4a148c;
+  color: var(--brand-purple);
   border: none;
   padding: 10px 16px;
   border-radius: 8px;
@@ -81,7 +86,7 @@ header h1 {
   padding: 14px 18px;
   border-radius: var(--border-radius);
   text-decoration: none;
-  color: var(--text-main);
+  color: var(--brand-purple); /* CORREGIDO: Texto oscuro para los botones pastel */
   font-weight: 600;
 }
 
@@ -104,13 +109,13 @@ header h1 {
   background: var(--card-bg);
   border-radius: var(--border-radius);
   padding: 22px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 }
 
 .card h2 {
   margin-top: 0;
   font-size: 1.2rem;
-  color: #4a148c;
+  color: var(--brand-purple);
 }
 
 .table-wrapper {
@@ -120,18 +125,20 @@ header h1 {
 table {
   width: 100%;
   border-collapse: collapse;
+  background: rgba(255, 255, 255, 0.7); /* CORREGIDO: Fondo semi-blanco para que la tabla sea legible sobre el gris */
 }
 
 th, td {
   padding: 10px;
   text-align: center;
-  border: 1px solid #f3e5f5;
+  border: 1px solid #e1bee7;
   font-size: 0.9rem;
+  color: #1a1a1a; /* CORREGIDO: Asegura lectura de datos */
 }
 
 th {
   background-color: var(--pastel-purple);
-  color: #4a148c;
+  color: var(--brand-purple);
 }
 
 .form-tarea {
@@ -146,11 +153,13 @@ th {
   border: 1px solid #e1bee7;
   border-radius: 8px;
   font-size: 0.9rem;
+  background: #ffffff; /* CORREGIDO: Asegura fondos blancos para inputs */
+  color: #1a1a1a;
 }
 
 .form-tarea button {
   background-color: var(--pastel-pink);
-  color: #4a148c;
+  color: var(--brand-purple);
   font-weight: bold;
   cursor: pointer;
   border: none;
@@ -170,6 +179,7 @@ th {
   border-left: 5px solid #ab47bc;
   margin-bottom: 10px;
   border-radius: 6px;
+  color: #1a1a1a; /* CORREGIDO: Texto de eventos legible */
 }
 
 #calendar-header {
@@ -178,6 +188,7 @@ th {
   align-items: center;
   font-weight: bold;
   margin-bottom: 10px;
+  color: var(--brand-purple);
 }
 
 #calendar-grid {
@@ -193,10 +204,12 @@ th {
   border-radius: 6px;
   font-size: 0.8rem;
   min-height: 35px;
+  color: #1a1a1a; /* CORREGIDO: Texto de días legible */
 }
 
 .cal-day.has-task {
   background: var(--pastel-pink);
   font-weight: bold;
   border: 1px solid #ab47bc;
+  color: var(--brand-purple);
 }
