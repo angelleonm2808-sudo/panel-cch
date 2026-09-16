@@ -3,8 +3,8 @@
   "short_name": "CCH 146B",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#fdf4ff",
-  "theme_color": "#7e22ce",
+  "background_color": "#7ef3f7",
+  "theme_color": "#696fc2",
   "orientation": "portrait",
   "icons": [
     {
