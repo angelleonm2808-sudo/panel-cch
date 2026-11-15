@@ -237,6 +237,9 @@ document.addEventListener('DOMContentLoaded', () => {
   ajustarHorarioPorDia();
   renderAsistencias();
 
+  // CORRECCIÓN CLAVE: Inicializar el reloj de inmediato al cargar la página
+  actualizarReloj();
+
   const btnConsultar = document.getElementById('btn-consultar-clase');
   if (btnConsultar) {
     btnConsultar.addEventListener('click', () => {
