@@ -17,6 +17,7 @@ function pedirPermisoNotificaciones() {
     });
   }
 }
+window.pedirPermisoNotificaciones = pedirPermisoNotificaciones;
 
 // ==========================================
 // 2. INICIO DE SESIÓN Y NOMBRE
@@ -62,33 +63,36 @@ function guardarSesion() {
 
   alert('¡Datos guardados con éxito!');
 }
-
 window.guardarSesion = guardarSesion;
-window.pedirPermisoNotificaciones = pedirPermisoNotificaciones;
 
 // ==========================================
-// 3. HORARIOS Y REGISTRO DE ASISTENCIA
+// 3. HORARIOS DINÁMICOS Y RELOJ
 // ==========================================
 let mostrandoTodoElHorario = false;
 
 function ajustarHorarioPorDia() {
-  if (mostrandoTodoElHorario) return; // Si el usuario decidió ver toda la semana, no filtramos
+  if (mostrandoTodoElHorario) return;
 
   const ahora = new Date();
-  const dia = ahora.getDay(); // 0 = Domingo, 1 = Lunes, ..., 5 = Viernes, 6 = Sábado
-  // Si es fin de semana (sábado o domingo), por defecto mostramos el lunes (1)
-  const diaActual = (dia >= 1 && dia <= 5) ? dia : 1; 
-
+  const dia = ahora.getDay(); // 0 = Domingo, 1 = Lunes, ..., 6 = Sábado
   const columnas = document.querySelectorAll('.dia-columna');
-  columnas.forEach(col => col.style.display = 'none'); // Ocultar todas
+  const tituloHorario = document.querySelector('#tira-materias h2');
 
-  const columnasHoy = document.querySelectorAll(`.col-${diaActual}`);
-  columnasHoy.forEach(col => col.style.display = ''); // Mostrar solo el día actual
+  // Si es fin de semana (Sábado o Domingo)
+  if (dia === 0 || dia === 6) {
+    columnas.forEach(col => col.style.display = '');
+    if (tituloHorario) tituloHorario.innerText = "📚 Fin de semana (Horario de referencia)";
+    return;
+  }
+
+  // Si es día de semana (Lunes a Viernes)
+  columnas.forEach(col => col.style.display = 'none');
+  const columnasHoy = document.querySelectorAll(`.col-${dia}`);
+  columnasHoy.forEach(col => col.style.display = '');
 
   const nombresDias = ["", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes"];
-  const tituloHorario = document.querySelector('#tira-materias h2');
-  if (tituloHorario && dia >= 1 && dia <= 5) {
-    tituloHorario.innerText = `📚 Horario de Hoy (${nombresDias[diaActual]})`;
+  if (tituloHorario) {
+    tituloHorario.innerText = `📚 Horario de Hoy (${nombresDias[dia]})`;
   }
 }
 
@@ -107,7 +111,6 @@ function alternarVistaHorario() {
     if (btn) btn.innerText = "Ver toda la semana";
   }
 }
-
 window.alternarVistaHorario = alternarVistaHorario;
 
 function actualizarReloj() {
@@ -171,15 +174,14 @@ function marcarAsistencia(estado) {
     statusText.textContent = `Registrado: "${estado}" para la clase actual (${ahora.toLocaleTimeString('es-MX', {hour:'2-digit', minute:'2-digit'})})`;
   }
 }
-
 window.marcarAsistencia = marcarAsistencia;
 
 // ==========================================
-// 4. FUNCIONES DE MAPA Y BLOC DE NOTAS
+// 4. INICIALIZACIÓN Y EVENTOS DEL DOM
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
   cargarSesion();
-  ajustarHorarioPorDia(); // Ajusta la tabla de horario al día actual al cargar
+  ajustarHorarioPorDia();
 
   const btnConsultar = document.getElementById('btn-consultar-clase');
   if (btnConsultar) {
@@ -196,14 +198,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnMapa && mapaCont) {
     btnMapa.addEventListener('click', () => {
       mapaCont.style.display = (mapaCont.style.display === 'none') ? 'block' : 'none';
-    });
-  }
-
-  const blocNotas = document.getElementById('bloc-notas');
-  if (blocNotas) {
-    blocNotas.value = localStorage.getItem('cch_apuntes') || '';
-    blocNotas.addEventListener('input', () => {
-      localStorage.setItem('cch_apuntes', blocNotas.value);
     });
   }
 
@@ -265,94 +259,4 @@ if (btnAgregar) {
 
 window.eliminarTarea = function(i) {
   tareas.splice(i, 1);
-  localStorage.setItem('cch_tareas_v7', JSON.stringify(tareas));
-  renderTareas();
-};
-
-window.cambiarEstado = function(i, val) {
-  if (val === 'Hecha') {
-    tareas.splice(i, 1);
-  } else {
-    tareas[i].estado = val;
-  }
-  localStorage.setItem('cch_tareas_v7', JSON.stringify(tareas));
-  renderTareas();
-};
-
-function verificarNotificacionesTareas() {
-  if (!('Notification' in window) || Notification.permission !== 'granted') return;
-
-  const ahora = new Date();
-  const year = ahora.getFullYear();
-  const month = String(ahora.getMonth() + 1).padStart(2, '0');
-  const day = String(ahora.getDate()).padStart(2, '0');
-  const hoyFormatted = `${year}-${month}-${day}`;
-  const horaActual = ahora.getHours();
-
-  if (horaActual >= 9) {
-    tareas.forEach((t, index) => {
-      if (t.fecha === hoyFormatted && t.estado === 'Pendiente' && !t.notificada) {
-        new Notification("📝 Tarea pendiente para hoy - CCH Sur", {
-          body: `Tienes pendiente la entrega de ${t.materia}: "${t.desc}"`,
-          icon: "icon-192.png"
-        });
-        tareas[index].notificada = true;
-      }
-    });
-    localStorage.setItem('cch_tareas_v7', JSON.stringify(tareas));
-  }
-}
-
-function renderCalendar() {
-  const monthYear = document.getElementById('cal-month-year');
-  const grid = document.getElementById('calendar-grid');
-  if (!monthYear || !grid) return;
-
-  grid.innerHTML = '';
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth();
-
-  monthYear.textContent = currentDate.toLocaleDateString('es-MX', { month: 'long', year: 'numeric' });
-
-  const firstDay = new Date(year, month, 1).getDay();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-  for (let i = 0; i < firstDay; i++) {
-    const empty = document.createElement('div');
-    grid.appendChild(empty);
-  }
-
-  for (let day = 1; day <= daysInMonth; day++) {
-    const dayDiv = document.createElement('div');
-    dayDiv.className = 'cal-day';
-    dayDiv.textContent = day;
-    const formattedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    
-    if (tareas.some(t => t.fecha === formattedDate && t.estado === 'Pendiente')) {
-      dayDiv.classList.add('has-task');
-    }
-    grid.appendChild(dayDiv);
-  }
-}
-
-const btnCalPrev = document.getElementById('cal-prev');
-const btnCalNext = document.getElementById('cal-next');
-if (btnCalPrev) btnCalPrev.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() - 1); renderCalendar(); });
-if (btnCalNext) btnCalNext.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() + 1); renderCalendar(); });
-
-// CALCULADORA
-function calcularPromedio() {
-  const inputs = document.querySelectorAll('.input-calif');
-  let suma = 0, contadas = 0;
-  inputs.forEach(input => {
-    const val = parseFloat(input.value);
-    if (!isNaN(val) && val >= 0 && val <= 10) { suma += val; contadas++; }
-  });
-  const resEl = document.getElementById('resultado-promedio');
-  if (resEl) {
-    if (contadas === 0) resEl.textContent = '⚠️ Ingresa al menos una nota.';
-    else resEl.textContent = `🎯 Promedio: ${(suma / contadas).toFixed(2)}`;
-  }
-}
-
-window.calcularPromedio = calcularPromedio;
+  localStorage.setItem('
