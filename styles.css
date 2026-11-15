@@ -1,15 +1,13 @@
 :root {
-  --bg-color: #04d9ff;       /* Cyan brillante */
+  --bg-color: #04d9ff;        /* Cyan brillante */
   --card-bg: #c7c8ca;        /* Gris medio */
-  --text-main: #1a1a1a;      /* CORREGIDO: Texto oscuro para que sea legible sobre el gris y los pasteles */
-  --text-light: #ffffff;     /* Para contrastar sobre fondos muy oscuros si es necesario */
+  --text-main: #1a1a1a;      /* Texto oscuro legible */
+  --text-light: #ffffff;     
   --pastel-pink: #f8bbd0;
   --pastel-purple: #e1bee7;
   --pastel-lavender: #d1c4e9;
   --pastel-blue: #c5cae9;
   --border-radius: 16px;
-  
-  /* NUEVO: Un morado oscuro controlado para elementos destacados */
   --brand-purple: #4a148c;
 }
 
@@ -34,7 +32,7 @@ header {
   background: var(--card-bg);
   padding: 20px 25px;
   border-radius: var(--border-radius);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* CORREGIDO: Sombra oscura sutil en vez de morada */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 header h1 {
@@ -59,7 +57,7 @@ header h1 {
   background: #f3e5f5;
   border-left: 6px solid #ab47bc;
   margin-bottom: 20px;
-  color: #333333; /* CORREGIDO: Forzar texto legible en la alerta clara */
+  color: #333333;
 }
 
 .btn-accion {
@@ -86,7 +84,7 @@ header h1 {
   padding: 14px 18px;
   border-radius: var(--border-radius);
   text-decoration: none;
-  color: var(--brand-purple); /* CORREGIDO: Texto oscuro para los botones pastel */
+  color: var(--brand-purple);
   font-weight: 600;
 }
 
@@ -125,7 +123,7 @@ header h1 {
 table {
   width: 100%;
   border-collapse: collapse;
-  background: rgba(255, 255, 255, 0.7); /* CORREGIDO: Fondo semi-blanco para que la tabla sea legible sobre el gris */
+  background: rgba(255, 255, 255, 0.7);
 }
 
 th, td {
@@ -133,7 +131,7 @@ th, td {
   text-align: center;
   border: 1px solid #e1bee7;
   font-size: 0.9rem;
-  color: #1a1a1a; /* CORREGIDO: Asegura lectura de datos */
+  color: #1a1a1a;
 }
 
 th {
@@ -153,7 +151,7 @@ th {
   border: 1px solid #e1bee7;
   border-radius: 8px;
   font-size: 0.9rem;
-  background: #ffffff; /* CORREGIDO: Asegura fondos blancos para inputs */
+  background: #ffffff;
   color: #1a1a1a;
 }
 
@@ -179,7 +177,7 @@ th {
   border-left: 5px solid #ab47bc;
   margin-bottom: 10px;
   border-radius: 6px;
-  color: #1a1a1a; /* CORREGIDO: Texto de eventos legible */
+  color: #1a1a1a;
 }
 
 #calendar-header {
@@ -204,7 +202,7 @@ th {
   border-radius: 6px;
   font-size: 0.8rem;
   min-height: 35px;
-  color: #1a1a1a; /* CORREGIDO: Texto de días legible */
+  color: #1a1a1a;
 }
 
 .cal-day.has-task {
