@@ -61,6 +61,16 @@
           <button onclick="marcarAsistencia('Falté')" style="flex: 1; padding: 10px; border: none; border-radius: 6px; background: #fee2e2; color: #b91c1c; font-weight: bold; cursor: pointer;">❌ Falté</button>
         </div>
         <p id="registro-confirmado" style="font-size: 0.8rem; margin-top: 6px; text-align: center; font-weight: bold;"></p>
+
+        <!-- NUEVO: Resumen y Reporte Semanal de Asistencia -->
+        <div style="margin-top: 15px; background: rgba(255, 255, 255, 0.85); padding: 10px; border-radius: 8px; border: 1px solid var(--pastel-purple);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <h3 style="margin: 0; font-size: 0.9rem; color: var(--brand-purple);">📊 Reporte Semanal de Asistencia</h3>
+            <button onclick="limpiarAsistencias()" style="background: #fee2e2; color: #b91c1c; border: none; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; font-weight: bold;">Borrar Historial</button>
+          </div>
+          <div id="estadisticas-asistencia" style="font-size: 0.8rem; margin-bottom: 6px; font-weight: bold;">Calculando...</div>
+          <ul id="lista-asistencias" style="list-style: none; padding: 0; max-height: 130px; overflow-y: auto; font-size: 0.75rem; margin: 0;"></ul>
+        </div>
       </div>
     </section>
 
@@ -82,7 +92,7 @@
 
     <main class="grid-layout">
       
-      <!-- HORARIO DINÁMICO (Solo muestra el día actual en móviles) -->
+      <!-- HORARIO DINÁMICO -->
       <section id="tira-materias" class="card grid-full">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 10px;">
           <h2 style="margin: 0;">📚 Horario de Hoy</h2>
