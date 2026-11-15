@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#04d9ff"> <!-- Actualizado a tu cyan principal -->
+  <meta name="theme-color" content="#04d9ff">
   
   <title>Grupo 146B - CCH Sur | Panel de Control</title>
   <meta name="description" content="Panel de tareas, horarios y asistencias del grupo 146B del CCH Sur.">
@@ -21,13 +21,13 @@
     <section id="sec-login" class="card" style="margin-bottom: 20px;">
       <h2>🔑 Inicio de Sesión / Perfil</h2>
       <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
-        <input type="text" id="num-cuenta" placeholder="Número de Cuenta (9 dígitos)" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid var(--pastel-purple); min-width: 180px;">
-        <input type="text" id="input-nombre" placeholder="Tu Nombre Completo" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid var(--pastel-purple); min-width: 180px;">
-        <button onclick="guardarSesion()" class="btn-accion">Guardar Datos</button>
+        <input type="text" id="num-cuenta" placeholder="Número de Cuenta (9 dígitos)" style="flex: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--pastel-purple); min-width: 100%;">
+        <input type="text" id="input-nombre" placeholder="Tu Nombre Completo" style="flex: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--pastel-purple); min-width: 100%;">
+        <button onclick="guardarSesion()" class="btn-accion" style="width: 100%; padding: 12px;">Guardar Datos</button>
       </div>
     </section>
 
-    <!-- ENCABEZADO OPTIMIZADO PARA MÓVILES (Limpio de estilos inline de color) -->
+    <!-- ENCABEZADO OPTIMIZADO PARA MÓVILES -->
     <header style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
       <div class="user-info" style="width: 100%;">
         <h1 style="font-size: 1.4rem; margin: 0; line-height: 1.3; word-break: break-word;">
@@ -36,7 +36,7 @@
         <p id="cuenta-display" style="font-size: 0.85rem; font-weight: bold; margin: 4px 0 0 0; color: var(--brand-purple);">Cuenta: Sin registrar</p>
         <p style="font-size: 0.8rem; margin: 2px 0 0 0; opacity: 0.8;">CCH Sur • Grupo 146B • Turno Vespertino (003)</p>
       </div>
-      <div id="reloj-card" style="background: var(--pastel-purple); padding: 10px; border-radius: 10px; text-align: center;">
+      <div id="reloj-card" style="background: var(--pastel-purple); padding: 12px; border-radius: 10px; text-align: center;">
         <span id="reloj" style="display: block; font-size: 1.2rem; font-weight: bold;">12:00:00 p.m.</span>
         <span id="fecha" style="font-size: 0.85rem;">Cargando fecha...</span>
       </div>
@@ -48,17 +48,17 @@
       <p id="texto-clase" style="font-weight: bold; font-size: 1rem; margin: 10px 0;">Cargando horario...</p>
       
       <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;">
-        <button id="btn-consultar-clase" class="btn-accion" style="flex: 1; min-width: 140px;">❓ ¿Qué clase me toca?</button>
-        <button onclick="pedirPermisoNotificaciones()" class="btn-accion" style="flex: 1; min-width: 140px;">🔔 Notificaciones</button>
+        <button id="btn-consultar-clase" class="btn-accion" style="flex: 1; min-width: 140px; padding: 10px;">❓ ¿Qué clase me toca?</button>
+        <button onclick="pedirPermisoNotificaciones()" class="btn-accion" style="flex: 1; min-width: 140px; padding: 10px;">🔔 Notificaciones</button>
       </div>
 
       <!-- Panel de Registro de Asistencia -->
       <div id="panel-asistencia" style="margin-top: 15px; background: rgba(255, 255, 255, 0.5); padding: 12px; border-radius: 10px; border: 1px solid var(--pastel-purple);">
         <p style="font-size: 0.85rem; font-weight: bold; margin-bottom: 8px;">Registrar asistencia de la clase actual:</p>
         <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-          <button onclick="marcarAsistencia('Asistí')" style="flex: 1; padding: 8px; border: none; border-radius: 6px; background: #dcfce7; color: #15803d; font-weight: bold; cursor: pointer;">✅ Asistí</button>
-          <button onclick="marcarAsistencia('Llegué Tarde')" style="flex: 1; padding: 8px; border: none; border-radius: 6px; background: #fef9c3; color: #a16207; font-weight: bold; cursor: pointer;">⚠️ Llegué Tarde</button>
-          <button onclick="marcarAsistencia('Falté')" style="flex: 1; padding: 8px; border: none; border-radius: 6px; background: #fee2e2; color: #b91c1c; font-weight: bold; cursor: pointer;">❌ Falté</button>
+          <button onclick="marcarAsistencia('Asistí')" style="flex: 1; padding: 10px; border: none; border-radius: 6px; background: #dcfce7; color: #15803d; font-weight: bold; cursor: pointer;">✅ Asistí</button>
+          <button onclick="marcarAsistencia('Llegué Tarde')" style="flex: 1; padding: 10px; border: none; border-radius: 6px; background: #fef9c3; color: #a16207; font-weight: bold; cursor: pointer;">⚠️ Llegué Tarde</button>
+          <button onclick="marcarAsistencia('Falté')" style="flex: 1; padding: 10px; border: none; border-radius: 6px; background: #fee2e2; color: #b91c1c; font-weight: bold; cursor: pointer;">❌ Falté</button>
         </div>
         <p id="registro-confirmado" style="font-size: 0.8rem; margin-top: 6px; text-align: center; font-weight: bold;"></p>
       </div>
@@ -82,45 +82,49 @@
 
     <main class="grid-layout">
       
-      <!-- HORARIO AGRUPADO -->
+      <!-- HORARIO DINÁMICO (Solo muestra el día actual en móviles) -->
       <section id="tira-materias" class="card grid-full">
-        <h2>📚 Horario Agrupado (Bloques de 2 Horas)</h2>
-        <div class="table-wrapper">
-          <table>
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 10px;">
+          <h2 style="margin: 0;">📚 Horario de Hoy</h2>
+          <button onclick="alternarVistaHorario()" id="btn-alternar-horario" class="btn-accion" style="padding: 6px 12px; font-size: 0.8rem;">Ver toda la semana</button>
+        </div>
+        
+        <div class="table-wrapper" style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+          <table style="width: 100%; border-collapse: collapse; min-width: 400px;">
             <thead>
               <tr>
-                <th>Bloque de Horario</th>
-                <th>Lunes</th>
-                <th>Martes</th>
-                <th>Miércoles</th>
-                <th>Jueves</th>
-                <th>Viernes</th>
+                <th style="padding: 10px; text-align: left;">Bloque</th>
+                <th style="padding: 10px; text-align: left;" class="dia-columna col-1">Lunes</th>
+                <th style="padding: 10px; text-align: left;" class="dia-columna col-2">Martes</th>
+                <th style="padding: 10px; text-align: left;" class="dia-columna col-3">Miércoles</th>
+                <th style="padding: 10px; text-align: left;" class="dia-columna col-4">Jueves</th>
+                <th style="padding: 10px; text-align: left;" class="dia-columna col-5">Viernes</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><b>03:00 p.m. - 05:00 p.m.</b></td>
-                <td>Matemáticas I<br><small>Edif. [B] 04</small></td>
-                <td>Hist. Universal<br><small>Edif. [V] 02</small></td>
-                <td>Matemáticas I<br><small>Edif. [B] 04</small></td>
-                <td>Hist. Universal<br><small>Edif. [V] 02</small></td>
-                <td>Matemáticas I (3-4)<br><small>Edif. [B] 04</small><br><span style="color:#15803d; font-weight:bold;">✨ Libres (4-5)</span></td>
+                <td style="padding: 10px; border-top: 1px solid #eee;"><b>03:00 - 05:00 p.m.</b></td>
+                <td style="padding: 10px; border-top: 1px solid #eee;" class="dia-columna col-1">Matemáticas I<br><small>Edif. [B] 04</small></td>
+                <td style="padding: 10px; border-top: 1px solid #eee;" class="dia-columna col-2">Hist. Universal<br><small>Edif. [V] 02</small></td>
+                <td style="padding: 10px; border-top: 1px solid #eee;" class="dia-columna col-3">Matemáticas I<br><small>Edif. [B] 04</small></td>
+                <td style="padding: 10px; border-top: 1px solid #eee;" class="dia-columna col-4">Hist. Universal<br><small>Edif. [V] 02</small></td>
+                <td style="padding: 10px; border-top: 1px solid #eee;" class="dia-columna col-5">Matemáticas I (3-4)<br><small>Edif. [B] 04</small><br><span style="color:#15803d; font-weight:bold;">✨ Libres (4-5)</span></td>
               </tr>
               <tr>
-                <td><b>05:00 p.m. - 07:00 p.m.</b></td>
-                <td>Taller Cómputo<br><small>Edif. [Z] 07</small></td>
-                <td>Química I<br><small>Edif. [E] 13</small></td>
-                <td>Taller Cómputo<br><small>Edif. [Z] 07</small></td>
-                <td>Química I<br><small>Edif. [E] 13</small></td>
-                <td><span style="color:#15803d; font-weight:bold;">✨ Libres (5-6)</span><br>Química I (6-7)<br><small>Edif. [E] 13</small></td>
+                <td style="padding: 10px; border-top: 1px solid #eee;"><b>05:00 - 07:00 p.m.</b></td>
+                <td style="padding: 10px; border-top: 1px solid #eee;" class="dia-columna col-1">Taller Cómputo<br><small>Edif. [Z] 07</small></td>
+                <td style="padding: 10px; border-top: 1px solid #eee;" class="dia-columna col-2">Química I<br><small>Edif. [E] 13</small></td>
+                <td style="padding: 10px; border-top: 1px solid #eee;" class="dia-columna col-3">Taller Cómputo<br><small>Edif. [Z] 07</small></td>
+                <td style="padding: 10px; border-top: 1px solid #eee;" class="dia-columna col-4">Química I<br><small>Edif. [E] 13</small></td>
+                <td style="padding: 10px; border-top: 1px solid #eee;" class="dia-columna col-5"><span style="color:#15803d; font-weight:bold;">✨ Libres (5-6)</span><br>Química I (6-7)<br><small>Edif. [E] 13</small></td>
               </tr>
               <tr>
-                <td><b>07:00 p.m. - 09:00 p.m.</b></td>
-                <td>Inglés I<br><small>Edif. [IN] 04</small></td>
-                <td>TLRIID I<br><small>Edif. [L] 01</small></td>
-                <td>TLRIID I<br><small>Edif. [L] 01</small></td>
-                <td>TLRIID I<br><small>Edif. [L] 01</small></td>
-                <td>Inglés I<br><small>Edif. [IN] 10</small></td>
+                <td style="padding: 10px; border-top: 1px solid #eee;"><b>07:00 - 09:00 p.m.</b></td>
+                <td style="padding: 10px; border-top: 1px solid #eee;" class="dia-columna col-1">Inglés I<br><small>Edif. [IN] 04</small></td>
+                <td style="padding: 10px; border-top: 1px solid #eee;" class="dia-columna col-2">TLRIID I<br><small>Edif. [L] 01</small></td>
+                <td style="padding: 10px; border-top: 1px solid #eee;" class="dia-columna col-3">TLRIID I<br><small>Edif. [L] 01</small></td>
+                <td style="padding: 10px; border-top: 1px solid #eee;" class="dia-columna col-4">TLRIID I<br><small>Edif. [L] 01</small></td>
+                <td style="padding: 10px; border-top: 1px solid #eee;" class="dia-columna col-5">Inglés I<br><small>Edif. [IN] 10</small></td>
               </tr>
             </tbody>
           </table>
@@ -130,9 +134,9 @@
       <!-- GESTOR DE TAREAS -->
       <section id="gestor-tareas" class="card">
         <h2>📝 Control de Tareas</h2>
-        <div class="form-tarea">
-          <input type="text" id="tarea-desc" placeholder="Descripción de la tarea...">
-          <select id="tarea-materia">
+        <div class="form-tarea" style="display: flex; flex-direction: column; gap: 10px;">
+          <input type="text" id="tarea-desc" placeholder="Descripción de la tarea..." style="padding: 10px; border-radius: 8px; border: 1px solid var(--pastel-purple);">
+          <select id="tarea-materia" style="padding: 10px; border-radius: 8px; border: 1px solid var(--pastel-purple);">
             <option value="Matemáticas I">Matemáticas I [B]</option>
             <option value="Hist. Universal">Historia Universal [V]</option>
             <option value="Taller Cómputo">Taller de Cómputo [Z]</option>
@@ -140,21 +144,21 @@
             <option value="Inglés I">Inglés I [IN]</option>
             <option value="TLRIID I">TLRIID I [L]</option>
           </select>
-          <input type="date" id="tarea-fecha">
-          <button id="btn-agregar-tarea">Guardar Tarea</button>
+          <input type="date" id="tarea-fecha" style="padding: 10px; border-radius: 8px; border: 1px solid var(--pastel-purple);">
+          <button id="btn-agregar-tarea" class="btn-accion" style="padding: 10px;">Guardar Tarea</button>
         </div>
-        <ul id="lista-tareas" class="event-list"></ul>
+        <ul id="lista-tareas" class="event-list" style="margin-top: 15px;"></ul>
       </section>
 
       <!-- CALENDARIO INTEGRADO -->
       <section id="seccion-calendario" class="card">
         <h2>📅 Calendario de Entregas</h2>
-        <div id="calendar-header">
-          <button id="cal-prev">◀</button>
-          <span id="cal-month-year"></span>
-          <button id="cal-next">▶</button>
+        <div id="calendar-header" style="display: flex; justify-content: space-between; align-items: center; margin: 10px 0;">
+          <button id="cal-prev" class="btn-accion" style="padding: 5px 10px;">◀</button>
+          <span id="cal-month-year" style="font-weight: bold;"></span>
+          <button id="cal-next" class="btn-accion" style="padding: 5px 10px;">▶</button>
         </div>
-        <div id="calendar-grid"></div> <!-- Corregido cierre de etiqueta roto -->
+        <div id="calendar-grid"></div>
       </section>
 
     </main>
