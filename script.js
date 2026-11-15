@@ -69,6 +69,47 @@ window.pedirPermisoNotificaciones = pedirPermisoNotificaciones;
 // ==========================================
 // 3. HORARIOS Y REGISTRO DE ASISTENCIA
 // ==========================================
+let mostrandoTodoElHorario = false;
+
+function ajustarHorarioPorDia() {
+  if (mostrandoTodoElHorario) return; // Si el usuario decidió ver toda la semana, no filtramos
+
+  const ahora = new Date();
+  const dia = ahora.getDay(); // 0 = Domingo, 1 = Lunes, ..., 5 = Viernes, 6 = Sábado
+  // Si es fin de semana (sábado o domingo), por defecto mostramos el lunes (1)
+  const diaActual = (dia >= 1 && dia <= 5) ? dia : 1; 
+
+  const columnas = document.querySelectorAll('.dia-columna');
+  columnas.forEach(col => col.style.display = 'none'); // Ocultar todas
+
+  const columnasHoy = document.querySelectorAll(`.col-${diaActual}`);
+  columnasHoy.forEach(col => col.style.display = ''); // Mostrar solo el día actual
+
+  const nombresDias = ["", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes"];
+  const tituloHorario = document.querySelector('#tira-materias h2');
+  if (tituloHorario && dia >= 1 && dia <= 5) {
+    tituloHorario.innerText = `📚 Horario de Hoy (${nombresDias[diaActual]})`;
+  }
+}
+
+function alternarVistaHorario() {
+  mostrandoTodoElHorario = !mostrandoTodoElHorario;
+  const btn = document.getElementById('btn-alternar-horario');
+  const columnas = document.querySelectorAll('.dia-columna');
+  const tituloHorario = document.querySelector('#tira-materias h2');
+
+  if (mostrandoTodoElHorario) {
+    columnas.forEach(col => col.style.display = '');
+    if (btn) btn.innerText = "Ver solo hoy";
+    if (tituloHorario) tituloHorario.innerText = "📚 Horario Completo (Semana)";
+  } else {
+    ajustarHorarioPorDia();
+    if (btn) btn.innerText = "Ver toda la semana";
+  }
+}
+
+window.alternarVistaHorario = alternarVistaHorario;
+
 function actualizarReloj() {
   const ahora = new Date();
   const relojEl = document.getElementById('reloj');
@@ -138,6 +179,7 @@ window.marcarAsistencia = marcarAsistencia;
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
   cargarSesion();
+  ajustarHorarioPorDia(); // Ajusta la tabla de horario al día actual al cargar
 
   const btnConsultar = document.getElementById('btn-consultar-clase');
   if (btnConsultar) {
@@ -171,8 +213,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 setInterval(actualizarReloj, 1000);
-
-// Comprobar tareas pendientes cada minuto
 setInterval(verificarNotificacionesTareas, 60000);
 
 // ==========================================
@@ -229,7 +269,6 @@ window.eliminarTarea = function(i) {
   renderTareas();
 };
 
-// Si se selecciona "Hecha", la tarea se borra automáticamente de la lista y del calendario
 window.cambiarEstado = function(i, val) {
   if (val === 'Hecha') {
     tareas.splice(i, 1);
@@ -240,7 +279,6 @@ window.cambiarEstado = function(i, val) {
   renderTareas();
 };
 
-// Sistema de Notificaciones a las 9:00 AM
 function verificarNotificacionesTareas() {
   if (!('Notification' in window) || Notification.permission !== 'granted') return;
 
@@ -251,7 +289,6 @@ function verificarNotificacionesTareas() {
   const hoyFormatted = `${year}-${month}-${day}`;
   const horaActual = ahora.getHours();
 
-  // Solo notificar si la hora es 9:00 AM o posterior
   if (horaActual >= 9) {
     tareas.forEach((t, index) => {
       if (t.fecha === hoyFormatted && t.estado === 'Pendiente' && !t.notificada) {
@@ -291,7 +328,6 @@ function renderCalendar() {
     dayDiv.textContent = day;
     const formattedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     
-    // Solo marca el día en el calendario si tiene tareas pendientes asociadas
     if (tareas.some(t => t.fecha === formattedDate && t.estado === 'Pendiente')) {
       dayDiv.classList.add('has-task');
     }
